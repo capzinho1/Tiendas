@@ -390,8 +390,10 @@
             // --- CHECK DE PAGO EXITOSO ---
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('payment') && urlParams.get('payment') === 'success') {
-                openSuccessModal(); 
-                window.history.replaceState({}, document.title, window.location.pathname);
+                setTimeout(() => {
+                    openSuccessModal();
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 100);
             }
 
             // --- ANIMACIONES GSAP ---

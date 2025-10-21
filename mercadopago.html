@@ -95,7 +95,8 @@
             // 1. Leer el total desde la URL
             const urlParams = new URLSearchParams(window.location.search);
             const total = urlParams.get('total') || 0;
-            
+            const origin = urlParams.get('origin') || 'distribuidoralaeconomica'; // Default to distribuidora
+
             // 2. Formatear y mostrar el total
             const totalFormateado = '$' + parseInt(total).toLocaleString('es-CL');
             document.getElementById('total-a-pagar').innerText = totalFormateado;
@@ -120,8 +121,14 @@
 
                 // 4. Simular 3 segundos de procesamiento de pago
                 setTimeout(() => {
-                    // 5. Redirigir de vuelta a distrubuidoralaeconomica.html con el parámetro de éxito
-                    window.location.href = 'distribuidoralaeconomica.html?payment=success';
+                    // 5. Redirigir de vuelta a la página de origen con el parámetro de éxito
+                    let redirectUrl = 'distribuidoralaeconomica.html?payment=success';
+                    if (origin === 'farmacia') {
+                        redirectUrl = 'farmacia.html?payment=success';
+                    } else if (origin === 'perfumeria') {
+                        redirectUrl = 'perfumeriasanrafael.html?payment=success';
+                    }
+                    window.location.href = redirectUrl;
                 }, 3000); // 3 segundos
             });
         });
