@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribuidora la Económica - Prototipo</title>
+    <meta name="description" content="Distribuidora la Económica - La mejor de San Rafael. Productos de calidad al mejor precio.">
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'e-rojo': '#DC2626', 
+                        'e-rojo-dark': '#B91C1C',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif; 
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .file-input-button {
+            background-color: #e0e0e0;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        input[type="radio"]:checked + label {
+            border-color: #DC2626;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+        }
+        
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-30">
+        <nav class="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left">
+                <h1 class="text-4xl font-bold text-e-rojo">Distribuidora la Económica</h1>
+                <p class="text-lg text-gray-600 italic">"La mejor de San Rafael"</p>
+            </div>
+            <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                <a href="index.html" class="text-gray-600 hover:text-e-rojo font-bold px-3 py-2 rounded-md transition-colors">Quiénes Somos</a>
+                <a href="farmacia.html" class="text-gray-600 hover:text-e-rojo font-bold px-3 py-2 rounded-md transition-colors">Farmacia</a>
+                <a href="perfumeriasanrafael.html" class="text-gray-600 hover:text-e-rojo font-bold px-3 py-2 rounded-md transition-colors">Perfumería</a>
+                
+                <button id="open-cart-btn" class="relative text-gray-700 hover:text-e-rojo transition-colors" aria-label="Abrir carrito de compras">
+                    <i class="fas fa-shopping-cart fa-2x"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-e-rojo text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-10">Nuestros Productos</h2>
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            
+            <!-- Product 1: Papas Krizpo -->
+            <article class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
+                <img src="https://media.falabella.com/tottusCL/20252936_1/w=800,h=800,fit=pad" 
+                     alt="Papas Krizpo Chicas" 
+                     class="w-full h-48 object-cover">
+                <div class="p-4 flex-grow">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Papas Krizpo Chicas</h3>
+                    <p class="text-2xl font-bold text-e-rojo mb-4">$1.000</p>
+                </div>
+                <button class="add-to-cart-btn bg-e-rojo hover:bg-e-rojo-dark text-white font-bold py-3 px-6 m-4 rounded-lg transition-transform transform active:scale-95"
+                        data-id="1" 
+                        data-name="Papas Krizpo Chicas" 
+                        data-price="1000"
+                        aria-label="Agregar Papas Krizpo Chicas al carrito">
+                    Agregar al Carrito
+                </button>
+            </article>
+            
+            <!-- Product 2: Piri Bebida -->
+            <article class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
+                <img src="https://unimarc.vtexassets.com/arquivos/ids/206415/000000000000195245-UN-01.jpg?v=637463191388470000" 
+                     alt="Piri Bebida" 
+                     class="w-full h-48 object-cover">
+                <div class="p-4 flex-grow">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Piri Bebida</h3>
+                    <p class="text-2xl font-bold text-e-rojo mb-4">$1.000</p>
+                </div>
+                <button class="add-to-cart-btn bg-e-rojo hover:bg-e-rojo-dark text-white font-bold py-3 px-6 m-4 rounded-lg transition-transform transform active:scale-95"
+                        data-id="2" 
+                        data-name="Piri Bebida" 
+                        data-price="1000"
+                        aria-label="Agregar Piri Bebida al carrito">
+                    Agregar al Carrito
+                </button>
+            </article>
+
+            <!-- Product 3: Cereal Vivo Check -->
+            <article class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
+                <img src="https://mercadocarozzi.cl/media/catalog/product/cache/7e6366646a99abfd85e17ed2a9ddf5d1/3/3/337406bcdabf9d410bb435dc48b141.jpg" 
+                     alt="Cereal Vivo Check" 
+                     class="w-full h-48 object-cover">
+                <div class="p-4 flex-grow">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Cereal Vivo Check</h3>
+                    <p class="text-2xl font-bold text-e-rojo mb-4">$1.000</p>
+                </div>
+                <button class="add-to-cart-btn bg-e-rojo hover:bg-e-rojo-dark text-white font-bold py-3 px-6 m-4 rounded-lg transition-transform transform active:scale-95"
+                        data-id="3" 
+                        data-name="Cereal Vivo Check" 
+                        data-price="1000"
+                        aria-label="Agregar Cereal Vivo Check al carrito">
+                    Agregar al Carrito
+                </button>
+            </article>
+
+            <!-- Product 4: Cereal Tritón -->
+            <article class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
+                <img src="https://santaisabel.vtexassets.com/arquivos/ids/277043/Cereal--Triton-Vainilla-360g.jpg?v=638199242131970000" 
+                     alt="Cereal Tritón" 
+                     class="w-full h-48 object-cover">
+                <div class="p-4 flex-grow">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Cereal Tritón</h3>
+                    <p class="text-2xl font-bold text-e-rojo mb-4">$1.000</p>
+                </div>
+                <button class="add-to-cart-btn bg-e-rojo hover:bg-e-rojo-dark text-white font-bold py-3 px-6 m-4 rounded-lg transition-transform transform active:scale-95"
+                        data-id="4" 
+                        data-name="Cereal Tritón" 
+                        data-price="1000"
+                        aria-label="Agregar Cereal Tritón al carrito">
+                    Agregar al Carrito
+                </button>
+            </article>
+            
+            <!-- Product 5: Pancho Villa XL -->
+            <article class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
+                <img src="https://mercadocarozzi.cl/media/catalog/product/cache/7e6366646a99abfd85e17ed2a9ddf5d1/7/8/7802095180185_-_3d.jpg" 
+                     alt="Pancho Villa XL" 
+                     class="w-full h-48 object-cover">
+                <div class="p-4 flex-grow">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Pancho Villa XL</h3>
+                    <p class="text-2xl font-bold text-e-rojo mb-4">$1.000</p>
+                </div>
+                <button class="add-to-cart-btn bg-e-rojo hover:bg-e-rojo-dark text-white font-bold py-3 px-6 m-4 rounded-lg transition-transform transform active:scale-95"
+                        data-id="5" 
+                        data-name="Pancho Villa XL" 
+                        data-price="1000"
+                        aria-label="Agregar Pancho Villa XL al carrito">
+                    Agregar al Carrito
+                </button>
+            </article>
+        </div>
+    </main>
+    
+    <!-- FAQ Section -->
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-8">Preguntas Frecuentes</h2>
+            <div class="max-w-2xl mx-auto">
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold mb-2">¿Cómo comprar?</h3>
+                    <p class="text-gray-700">Para comprar agregue los productos al carrito, luego presione en el carrito de la parte superior derecha para proceder a rellenar con sus datos y su método de pago. Estamos reponiendo nuestro inventario constantemente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rating Section -->
+    <section class="bg-gray-100 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Valora tu Experiencia</h2>
+            <div class="flex justify-center items-center space-x-2 text-4xl text-gray-400" id="rating-stars" role="group" aria-label="Calificar experiencia">
+                <button class="star-btn" aria-label="1 estrella"><i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors"></i></button>
+                <button class="star-btn" aria-label="2 estrellas"><i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors"></i></button>
+                <button class="star-btn" aria-label="3 estrellas"><i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors"></i></button>
+                <button class="star-btn" aria-label="4 estrellas"><i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors"></i></button>
+                <button class="star-btn" aria-label="5 estrellas"><i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors"></i></button>
+            </div>
+            <p id="rating-thanks" class="text-green-600 font-bold mt-4 opacity-0">¡Gracias por tu valoración!</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-bold text-lg">La Económica San Rafael</p>
+            <p class="text-gray-400">RUT: 11.111.111-1</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-500 ease-in-out z-50 flex flex-col" role="dialog" aria-labelledby="cart-title" aria-hidden="true">
+        <div class="flex justify-between items-center p-6 border-b">
+            <h2 id="cart-title" class="text-2xl font-bold">Tu Carrito</h2>
+            <button id="close-cart-btn" class="text-gray-500 hover:text-gray-800" aria-label="Cerrar carrito">
+                <i class="fas fa-times fa-2x"></i>
+            </button>
+        </div>
+        <div id="cart-items" class="flex-grow p-6 overflow-y-auto">
+            <p id="cart-empty-msg" class="text-gray-500 text-center">Tu carrito está vacío.</p>
+        </div>
+        <div class="p-6 border-t bg-gray-50">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-xl font-bold text-gray-800">Total:</span>
+                <span id="cart-total" class="text-2xl font-bold text-e-rojo">$0</span>
+            </div>
+            <button id="checkout-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg disabled:bg-gray-400" disabled>
+                Finalizar Compra
+            </button>
+        </div>
+    </div>
+    
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-60 z-50 p-4 hidden" role="dialog" aria-labelledby="checkout-title" aria-hidden="true">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col transform scale-90 opacity-0" id="checkout-box">
+            
+            <div class="flex justify-between items-center p-5 border-b">
+                <h2 id="checkout-title" class="text-2xl font-bold text-gray-800 flex items-center">
+                    <i class="fas fa-credit-card text-gray-500 mr-3"></i>
+                    Finalizar Compra
+                </h2>
+                <button id="close-checkout-btn" class="text-gray-400 hover:text-gray-700" aria-label="Cerrar checkout">
+                    <i class="fas fa-times fa-2x"></i>
+                </button>
+            </div>
+            
+            <form class="p-6 overflow-y-auto" id="checkout-form" novalidate>
+                
+                <!-- Customer Data Section -->
+                <fieldset>
+                    <legend class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                        <i class="fas fa-user-circle text-e-rojo mr-3"></i>
+                        Tus Datos
+                    </legend>
+                    <div class="space-y-4 mb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre Completo *</label>
+                                <div class="relative mt-1">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-user text-gray-400"></i></span>
+                                    <input type="text" id="nombre" name="nombre" class="w-full p-2 pl-10 border rounded-lg focus:ring-e-rojo focus:border-e-rojo" placeholder="Juan Pérez" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="rut" class="block text-sm font-medium text-gray-700">RUT *</label>
+                                <div class="relative mt-1">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-id-card text-gray-400"></i></span>
+                                    <input type="text" id="rut" name="rut" class="w-full p-2 pl-10 border rounded-lg focus:ring-e-rojo focus:border-e-rojo" placeholder="11.111.111-1" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico *</label>
+                            <div class="relative mt-1">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-envelope text-gray-400"></i></span>
+                                <input type="email" id="email" name="email" class="w-full p-2 pl-10 border rounded-lg focus:ring-e-rojo focus:border-e-rojo" placeholder="juan@correo.com" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección *</label>
+                            <div class="relative mt-1">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-map-marker-alt text-gray-400"></i></span>
+                                <input type="text" id="direccion" name="direccion" class="w-full p-2 pl-10 border rounded-lg focus:ring-e-rojo focus:border-e-rojo" placeholder="Av. Siempre Viva 123" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="ciudad" class="block text-sm font-medium text-gray-700">Ciudad *</label>
+                            <div class="relative mt-1">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-city text-gray-400"></i></span>
+                                <input type="text" id="ciudad" name="ciudad" class="w-full p-2 pl-10 border rounded-lg focus:ring-e-rojo focus:border-e-rojo" placeholder="San Rafael" required>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Payment Method Section -->
+                <fieldset>
+                    <legend class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                        <i class="fas fa-wallet text-e-rojo mr-3"></i>
+                        Método de Pago
+                    </legend>
+                    <div class="space-y-4">
+                        <div>
+                            <input type="radio" name="payment" id="pago-efectivo" value="efectivo" class="hidden" checked>
+                            <label for="pago-efectivo" class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                                <i class="fas fa-money-bill-wave text-green-500 text-3xl w-10 mr-4"></i>
+                                <div>
+                                    <span class="font-medium text-gray-900">Efectivo</span>
+                                    <p class="text-sm text-gray-500">Paga al recibir tu pedido.</p>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" name="payment" id="pago-transferencia" value="transferencia" class="hidden">
+                            <label for="pago-transferencia" class="block p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                                <div class="flex items-center">
+                                    <i class="fas fa-exchange-alt text-blue-500 text-3xl w-10 mr-4"></i>
+                                    <div>
+                                        <span class="font-medium text-gray-900">Transferencia Bancaria</span>
+                                        <p class="text-sm text-gray-500">Sube tu comprobante de pago.</p>
+                                    </div>
+                                </div>
+                                <div id="transfer-details" class="hidden mt-4 pt-4 border-t">
+                                    <p class="text-sm font-medium">Datos para transferir:</p>
+                                    <p class="text-sm font-mono text-gray-700">Cta. Corriente: 12345678 (Banco XYZ)</p>
+                                    <p class="text-sm font-mono text-gray-700">RUT: 11.111.111-1</p>
+                                    <p class="text-sm mt-2 font-medium">Sube tu comprobante:</p>
+                                    <div class="file-input-wrapper mt-1">
+                                        <button type="button" class="file-input-button">Seleccionar archivo</button>
+                                        <input type="file" id="comprobante-file" name="comprobante" accept="image/*,.pdf">
+                                    </div>
+                                    <span id="file-name" class="text-sm ml-2 text-gray-600">Ningún archivo...</span>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <input type="radio" name="payment" id="pago-mercadopago" value="mercadopago" class="hidden">
+                            <label for="pago-mercadopago" class="block p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                                <div class="flex items-center">
+                                    <i class="fas fa-credit-card text-cyan-500 text-3xl w-10 mr-4"></i>
+                                    <div>
+                                        <span class="font-medium text-gray-900">Tarjeta (vía MercadoPago)</span>
+                                        <p class="text-sm text-gray-500">Paga de forma segura con tarjetas.</p>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            
+            <div class="p-6 border-t bg-gray-50 rounded-b-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-lg font-medium text-gray-900">Total a Pagar:</span>
+                    <span id="checkout-total" class="text-3xl font-bold text-e-rojo">$0</span>
+                </div>
+                <button id="confirm-order-btn" class="w-full bg-e-rojo hover:bg-e-rojo-dark text-white font-bold py-3 rounded-lg text-lg flex items-center justify-center space-x-2 transition-transform active:scale-95">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Confirmar Pedido</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 w-full h-full flex items-center justify-center z-50 hidden" style="background-color: rgba(0,0,0,0.6);" role="dialog" aria-labelledby="success-title" aria-hidden="true">
+        <div id="success-modal-box" class="bg-white rounded-lg shadow-2xl p-8 max-w-sm mx-auto text-center transform scale-90 opacity-0">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                <i class="fas fa-check text-green-500 text-5xl"></i>
+            </div>
+            
+            <h2 id="success-title" class="text-3xl font-bold text-gray-800 mt-6 mb-3">¡Pedido Recibido!</h2>
+            
+            <p class="text-lg text-gray-600 mb-8">
+                Gracias por tu compra. Tu pedido será procesado a la brevedad. Se le enviará la boleta a su correo electrónico.
+            </p>
+            
+            <button id="close-success-btn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg">
+                Aceptar
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black opacity-50 hidden z-40"></div>
+
+    <!-- JavaScript -->
+    <script>
+        // ========================================
+        // E-COMMERCE APPLICATION
+        // ========================================
+        
+        class ECommerceApp {
+            constructor() {
+                this.cart = [];
+                this.initializeApp();
+            }
+
+            initializeApp() {
+                this.setupDOMReferences();
+                this.setupEventListeners();
+                this.setupAnimations();
+                this.checkPaymentSuccess();
+                this.updateCartUI();
+            }
+
+            setupDOMReferences() {
+                // Cart elements
+                this.openCartBtn = document.getElementById('open-cart-btn');
+                this.closeCartBtn = document.getElementById('close-cart-btn');
+                this.cartModal = document.getElementById('cart-modal');
+                this.modalOverlay = document.getElementById('modal-overlay');
+                this.cartItemsContainer = document.getElementById('cart-items');
+                this.cartTotalEl = document.getElementById('cart-total');
+                this.cartCountEl = document.getElementById('cart-count');
+                this.cartEmptyMsg = document.getElementById('cart-empty-msg');
+                this.checkoutBtn = document.getElementById('checkout-btn');
+                
+                // Checkout elements
+                this.checkoutModal = document.getElementById('checkout-modal');
+                this.checkoutBox = document.getElementById('checkout-box');
+                this.closeCheckoutBtn = document.getElementById('close-checkout-btn');
+                this.addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+                
+                // Success modal elements
+                this.successModal = document.getElementById('success-modal');
+                this.successModalBox = document.getElementById('success-modal-box');
+                this.closeSuccessBtn = document.getElementById('close-success-btn');
+                
+                // Form elements
+                this.paymentRadios = document.querySelectorAll('input[name="payment"]');
+                this.transferDetails = document.getElementById('transfer-details');
+                this.fileInput = document.getElementById('comprobante-file');
+                this.fileNameEl = document.getElementById('file-name');
+                this.confirmOrderBtn = document.getElementById('confirm-order-btn');
+                
+                // Rating elements
+                this.stars = document.querySelectorAll('#rating-stars .fa-star');
+                this.thanksMsg = document.getElementById('rating-thanks');
+            }
+
+            setupEventListeners() {
+                // Cart events
+                if (this.openCartBtn) this.openCartBtn.addEventListener('click', () => this.openCart());
+                if (this.closeCartBtn) this.closeCartBtn.addEventListener('click', () => this.closeCart());
+                if (this.modalOverlay) this.modalOverlay.addEventListener('click', () => this.closeAllModals());
+                if (this.cartItemsContainer) this.cartItemsContainer.addEventListener('click', (e) => this.handleCartClick(e));
+                if (this.checkoutBtn) this.checkoutBtn.addEventListener('click', () => this.openCheckout());
+                
+                // Checkout events
+                if (this.closeCheckoutBtn) this.closeCheckoutBtn.addEventListener('click', () => this.closeCheckout());
+                if (this.confirmOrderBtn) this.confirmOrderBtn.addEventListener('click', (e) => this.handleOrderConfirmation(e));
+                
+                // Product events
+                this.addToCartButtons.forEach(button => button.addEventListener('click', (e) => this.addToCart(e)));
+                
+                // Payment method events
+                this.paymentRadios.forEach(radio => {
+                    radio.addEventListener('change', () => this.handlePaymentMethodChange());
+                });
+                
+                // File upload events
+                if (this.fileInput) {
+                    this.fileInput.addEventListener('change', () => this.handleFileUpload());
+                }
+                
+                // Success modal events
+                if (this.closeSuccessBtn) this.closeSuccessBtn.addEventListener('click', () => this.closeSuccessModal());
+                
+                // Rating events
+                this.stars.forEach((star, index) => {
+                    star.addEventListener('click', () => this.handleRating(index));
+                });
+            }
+
+            setupAnimations() {
+                // Initial page animations
+                if (document.querySelector("h1")) {
+                    gsap.from("h1", { duration: 0.8, y: -50, opacity: 0, ease: "bounce.out", delay: 0.2 });
+                }
+                if (document.querySelector("header p")) {
+                    gsap.from("header p", { duration: 0.8, y: -30, opacity: 0, ease: "power2.out", delay: 0.4 });
+                }
+                if (document.querySelectorAll(".product-card").length > 0) {
+                    gsap.from(".product-card", { 
+                        duration: 0.7, 
+                        opacity: 0, 
+                        y: 50, 
+                        stagger: 0.1, 
+                        delay: 0.6, 
+                        ease: "power3.out" 
+                    });
+                }
+
+                // Cart modal animations
+                this.cartTimeline = gsap.timeline({ paused: true });
+                this.cartTimeline
+                    .to(this.modalOverlay, { duration: 0.3, opacity: 0.5, display: 'block', ease: "power2.inOut" })
+                    .to(this.cartModal, { duration: 0.4, x: 0, ease: "power3.out" }, "-=0.2");
+
+                // Checkout modal animations
+                this.checkoutTimeline = gsap.timeline({ paused: true });
+                this.checkoutTimeline
+                    .set(this.checkoutModal, { display: 'flex' })
+                    .to(this.checkoutBox, { duration: 0.4, scale: 1, opacity: 1, ease: "elastic.out(1, 0.75)" });
+
+                // Success modal animations
+                this.successTimeline = gsap.timeline({ paused: true });
+                this.successTimeline
+                    .to(this.successModal, { duration: 0.2, opacity: 1, display: 'flex', ease: "power2.inOut" })
+                    .to(this.successModalBox, { duration: 0.4, scale: 1, opacity: 1, ease: "elastic.out(1, 0.75)" });
+            }
+
+            checkPaymentSuccess() {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('payment') && urlParams.get('payment') === 'success') {
+                    setTimeout(() => {
+                        this.openSuccessModal();
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }, 100);
+                }
+            }
+
+            // Cart Management
+            addToCart(e) {
+                const button = e.target.closest('.add-to-cart-btn');
+                this.animateAddToCart(button);
+                
+                const id = button.dataset.id;
+                const existingItem = this.cart.find(item => item.id === id);
+                
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    this.cart.push({
+                        id: id,
+                        name: button.dataset.name,
+                        price: parseInt(button.dataset.price),
+                        quantity: 1
+                    });
+                }
+                
+                this.updateCartUI();
+            }
+
+            animateAddToCart(button) {
+                gsap.fromTo(button, { scale: 1 }, { scale: 1.05, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" });
+                gsap.fromTo(this.openCartBtn, { scale: 1 }, { scale: 1.2, duration: 0.2, yoyo: true, repeat: 1, ease: "elastic.out(1, 0.3)" });
+            }
+
+            updateCartUI() {
+                if (!this.cartItemsContainer) return;
+                
+                if (this.cart.length === 0) {
+                    this.cartEmptyMsg.style.display = 'block';
+                    this.cartItemsContainer.innerHTML = '';
+                    this.cartTotalEl.innerText = '$0';
+                    this.cartCountEl.innerText = '0';
+                    this.checkoutBtn.disabled = true;
+                    return;
+                }
+                
+                this.cartEmptyMsg.style.display = 'none';
+                this.cartItemsContainer.innerHTML = '';
+                
+                let total = 0;
+                let totalItems = 0;
+                
+                this.cart.forEach(item => {
+                    total += item.price * item.quantity;
+                    totalItems += item.quantity;
+                    
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'flex justify-between items-center mb-4 p-2 border-b';
+                    itemEl.innerHTML = `
+                        <div>
+                            <h4 class="font-bold">${item.name}</h4>
+                            <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
+                        </div>
+                        <span class="font-bold text-gray-800">$${(item.price * item.quantity).toLocaleString('es-CL')}</span>
+                        <button class="remove-from-cart text-red-500 hover:text-red-700 ml-4" data-id="${item.id}" aria-label="Eliminar ${item.name} del carrito">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    this.cartItemsContainer.appendChild(itemEl);
+                });
+                
+                this.cartTotalEl.innerText = `$${total.toLocaleString('es-CL')}`;
+                this.cartCountEl.innerText = totalItems;
+                this.checkoutBtn.disabled = false;
+            }
+
+            handleCartClick(e) {
+                if (e.target.closest('.remove-from-cart')) {
+                    const id = e.target.closest('.remove-from-cart').dataset.id;
+                    this.cart = this.cart.filter(item => item.id !== id);
+                    this.updateCartUI();
+                }
+            }
+
+            // Modal Management
+            openCart() {
+                this.cartTimeline.play();
+            }
+
+            closeCart() {
+                this.cartTimeline.reverse();
+            }
+
+            openCheckout() {
+                const currentTotal = this.cartTotalEl.innerText;
+                document.getElementById('checkout-total').innerText = currentTotal;
+                this.closeCart();
+                this.checkoutTimeline.play();
+            }
+
+            closeCheckout() {
+                this.checkoutTimeline.reverse().then(() => {
+                    gsap.set(this.checkoutModal, { display: 'none' });
+                });
+            }
+
+            openSuccessModal() {
+                this.successTimeline.play();
+            }
+
+            closeSuccessModal() {
+                this.successTimeline.reverse().then(() => {
+                    gsap.set(this.successModal, { display: 'none' });
+                });
+            }
+
+            closeAllModals() {
+                this.closeCart();
+                this.closeCheckout();
+            }
+
+            // Payment Method Handling
+            handlePaymentMethodChange() {
+                this.transferDetails.style.display = 'none';
+                const selectedPayment = document.querySelector('input[name="payment"]:checked');
+                if (selectedPayment && selectedPayment.id === 'pago-transferencia') {
+                    this.transferDetails.style.display = 'block';
+                }
+            }
+
+            handleFileUpload() {
+                this.fileNameEl.textContent = this.fileInput.files[0] ? 
+                    this.fileInput.files[0].name : 'Ningún archivo...';
+            }
+
+            // Order Confirmation
+            handleOrderConfirmation(e) {
+                e.preventDefault();
+                const form = document.getElementById('checkout-form');
+                
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    alert('Por favor, completa todos los campos de "Tus Datos".');
+                    return;
+                }
+
+                const selectedPayment = document.querySelector('input[name="payment"]:checked').id;
+                
+                if (selectedPayment === 'pago-mercadopago') {
+                    let totalText = this.cartTotalEl.innerText.replace('$', '').replace(/\./g, '');
+                    let total = parseInt(totalText);
+                    window.location.href = `mercadopago.html?total=${total}`;
+                } else {
+                    this.closeCheckout();
+                    this.openSuccessModal();
+                    this.cart = [];
+                    this.updateCartUI();
+                }
+            }
+
+            // Rating System
+            handleRating(index) {
+                this.stars.forEach((star, i) => {
+                    star.classList.toggle('text-yellow-400', i <= index);
+                    star.classList.toggle('text-gray-400', i > index);
+                });
+                gsap.to(this.thanksMsg, { duration: 0.5, opacity: 1, ease: 'power2.out' });
+            }
+        }
+
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ECommerceApp();
+        });
+    </script>
+</body>
+</html>

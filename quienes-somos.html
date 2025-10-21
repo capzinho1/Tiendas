@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiénes Somos - Distribuidora la Económica</title>
+    <meta name="description" content="Conoce más sobre nosotros. Somos una empresa con 2 locales en San Rafael, distribuidora y farmacia.">
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'e-rojo': '#DC2626', 
+                        'e-rojo-dark': '#B91C1C',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif; 
+        }
+        
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-30">
+        <nav class="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left">
+                <h1 class="text-4xl font-bold text-e-rojo">Distribuidora la Económica</h1>
+                <p class="text-lg text-gray-600 italic">"La mejor de San Rafael"</p>
+            </div>
+            <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                <a href="distribuidoralaeconomica.html" class="text-gray-600 hover:text-e-rojo font-bold px-3 py-2 rounded-md transition-colors">Distribuidora</a>
+                <a href="farmacia.html" class="text-gray-600 hover:text-e-rojo font-bold px-3 py-2 rounded-md transition-colors">Farmacia</a>
+                <a href="perfumeriasanrafael.html" class="text-gray-600 hover:text-e-rojo font-bold px-3 py-2 rounded-md transition-colors">Perfumería</a>
+                
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-10">Quiénes Somos</h2>
+        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
+            <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                Somos una empresa con 2 locales en San Rafael, distribuidora y farmacia. Si buscas perfumería o maquillaje, te recomendamos entrar en la sección de perfumería de nuestra web.
+            </p>
+            <div class="text-center">
+               
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-bold text-lg">La Económica San Rafael</p>
+            <p class="text-gray-400">RUT: 11.111.111-1</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.from("h1", { duration: 0.8, y: -50, opacity: 0, ease: "bounce.out", delay: 0.2 });
+            gsap.from("header p", { duration: 0.8, y: -30, opacity: 0, ease: "power2.out", delay: 0.4 });
+            gsap.from("main", { duration: 0.7, opacity: 0, y: 50, delay: 0.6, ease: "power3.out" });
+        });
+    </script>
+</body>
+</html>

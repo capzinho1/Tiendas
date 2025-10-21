@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Perfumería San Rafael — Showcase 3D</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'perfume-accent': '#3b82f6', 
+                        'perfume-accent-dark': '#2563eb',
+                        'perfume-success': '#10b981', 
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root { --bg: #0b0b0b; --muted: #9ca3af; --accent: #e6e6e6 }
+        body { background: radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent), var(--bg); font-family: 'Inter', sans-serif; }
+        .perfume-card { backdrop-filter: blur(8px); background-color: rgba(20, 20, 20, 0.6); }
+        .glow { box-shadow: 0 6px 30px rgba(255,255,255,0.03), 0 0 40px rgba(255,255,255,0.02) inset; }
+        .modal-backdrop { background: linear-gradient(180deg, rgba(0,0,0,0.8), rgba(0,0,0,0.92)); }
+
+        .modal-scroll::-webkit-scrollbar { width: 8px; }
+        .modal-scroll::-webkit-scrollbar-track { background: #2d3748; }
+        .modal-scroll::-webkit-scrollbar-thumb { background: #4a5568; border-radius: 4px; }
+        .modal-scroll::-webkit-scrollbar-thumb:hover { background: #718096; }
+        input[type="text"], input[type="email"]{ background-color: #1f2937; border-color: #4b5563; color: #e5e7eb; }
+        input[type="text"]:focus, input[type="email"]:focus{ border-color: var(--accent); ring: 1; ring-color: var(--accent); }
+        input[type="radio"]:checked + label { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(230, 230, 230, 0.2); }
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; cursor: pointer; }
+        .file-input-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; }
+        .file-input-button { background-color: #4a5568; color: #e5e7eb; border: 1px solid #4b5563; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body class="text-gray-200 antialiased">
+    <main class="min-h-screen px-6 py-12">
+        <header class="max-w-6xl mx-auto flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight text-white">Perfumería <span class="text-gray-400">San Rafael</span></h1>
+                <p class="text-sm text-gray-500">Colección Exclusiva · Experiencia 3D</p>
+            </div>
+            <nav class="space-x-2 hidden md:flex items-center">
+                <a href="index.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Quiénes Somos</a>
+                <a href="distribuidoralaeconomica.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Distribuidora</a>
+                <a href="farmacia.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Farmacia</a>
+                <button id="open-cart-btn" class="relative text-gray-400 hover:text-white transition-colors ml-4 px-3 py-2">
+                    <i class="fas fa-shopping-bag fa-lg"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-perfume-accent text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center text-[10px]">0</span>
+                </button>
+            </nav>
+        </header>
+
+        <section class="max-w-6xl mx-auto mt-16">
+            <div class="grid perfume-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <article class="perfume-card group relative rounded-2xl p-6 border border-gray-800 hover:border-gray-600 transition transform hover:-translate-y-1 glow">
+                    <div class="h-64 flex items-center justify-center mb-4">
+                        <img src="https://www.pamelita.cl/wp-content/uploads/174815.png" alt="Millionaire Red" class="max-h-full transition-transform group-hover:scale-105 object-contain">
+                    </div>
+                    <h3 class="mt-4 text-lg font-semibold text-white">Millionaire Red</h3>
+                    <p class="text-sm text-gray-400">Fragancia masculina amaderada especiada, para un hombre audaz.</p>
+                    <div class="mt-4 flex items-center justify-between">
+                        <div class="text-xl font-bold text-gray-300">$12.000</div>
+                        <button class="open-modal-btn ml-4 px-4 py-2 rounded-md text-sm bg-white text-black font-semibold"
+                                data-id="P001"
+                                data-name="Millionaire Red"
+                                data-price="12000"
+                                data-desc="Fragancia masculina amaderada especiada, para un hombre audaz y apasionado."
+                                data-notes-out="Naranja Sanguina, Pomelo"
+                                data-notes-heart="Geranio, Pimienta Rosa"
+                                data-notes-base="Cedro, Pachulí"
+                                data-image-src="https://www.pamelita.cl/wp-content/uploads/174815.png"> Ver
+                        </button>
+                    </div>
+                </article>
+
+                <article class="perfume-card group relative rounded-2xl p-6 border border-gray-800 hover:border-gray-600 transition transform hover:-translate-y-1 glow">
+                    <div class="h-64 flex items-center justify-center mb-4">
+                        <img src="https://cdnx.jumpseller.com/nym-perfumeria/image/48863977/resize/280/280?1715961396" alt="Adidas Get Ready!" class="max-h-full transition-transform group-hover:scale-105 object-contain">
+                    </div>
+                    <h3 class="mt-4 text-lg font-semibold text-white">Adidas Get Ready!</h3>
+                    <p class="text-sm text-gray-400">Fragancia amaderada y aromática para hombre, fresca y energizante.</p>
+                    <div class="mt-4 flex items-center justify-between">
+                        <div class="text-xl font-bold text-gray-300">$5.000</div>
+                        <button class="open-modal-btn ml-4 px-4 py-2 rounded-md text-sm bg-white text-black font-semibold"
+                                data-id="P002"
+                                data-name="Adidas Get Ready!"
+                                data-price="5000"
+                                data-desc="Adidas Get Ready! for Him es una fragancia amaderada y aromática, inspirada en la vitalidad."
+                                data-notes-out="Mandarina, Piña, Notas Marinas"
+                                data-notes-heart="Frutas Exóticas, Salvia"
+                                data-notes-base="Cedro, Sándalo"
+                                data-image-src="https://cdnx.jumpseller.com/nym-perfumeria/image/48863977/resize/280/280?1715961396"> Ver
+                        </button>
+                    </div>
+                </article>
+
+                <article class="perfume-card group relative rounded-2xl p-6 border border-gray-800 hover:border-gray-600 transition transform hover:-translate-y-1 glow">
+                     <div class="h-64 flex items-center justify-center mb-4">
+                        <img src="https://perfumescolombia.com/wp-content/uploads/2023/06/Invictus-Victory.webp" alt="Invictus Victory" class="max-h-full transition-transform group-hover:scale-105 object-contain">
+                    </div>
+                    <h3 class="mt-4 text-lg font-semibold text-white">Invictus Victory</h3> 
+                    <p class="text-sm text-gray-400">Una fragancia ambarina fresca y potente, un duelo entre frescura y sensualidad.</p> 
+                    <div class="mt-4 flex items-center justify-between">
+                        <div class="text-xl font-bold text-gray-300">$88.000</div>
+                        <button class="open-modal-btn ml-4 px-4 py-2 rounded-md text-sm bg-white text-black font-semibold"
+                                data-id="P003"
+                                data-name="Invictus Victory"
+                                data-price="88000"
+                                data-desc="Un choque entre frescura penetrante y sensualidad magnética. Intensamente masculino."
+                                data-notes-out="Limón, Pimienta Rosa"
+                                data-notes-heart="Incienso, Lavanda"
+                                data-notes-base="Haba Tonka, Ámbar"
+                                data-image-src="https://perfumescolombia.com/wp-content/uploads/2023/06/Invictus-Victory.webp"> Ver
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <div id="productModal" class="fixed inset-0 hidden items-center justify-center z-50 p-4">
+            <div class="absolute inset-0 modal-backdrop" aria-hidden="true"></div>
+            <div class="relative max-w-4xl w-full mx-auto bg-transparent transform scale-95 opacity-0">
+                <button id="closeProductModal" class="absolute -right-2 -top-2 z-50 p-2 rounded-full bg-white text-black leading-none hover:bg-gray-200">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-6 items-stretch rounded-2xl overflow-hidden perfume-card border border-gray-700">
+                    <div class="p-8 flex flex-col justify-between">
+                        <div>
+                            <h2 id="modalTitle" class="text-3xl font-bold text-white">Producto</h2>
+                            <p id="modalDesc" class="mt-2 text-gray-400">Descripción breve.</p>
+                            <ul class="mt-6 text-sm text-gray-400 space-y-1">
+                                <li><strong class="text-gray-300">Salida:</strong> <span id="noteOut"></span></li>
+                                <li><strong class="text-gray-300">Corazón:</strong> <span id="noteHeart"></span></li>
+                                <li><strong class="text-gray-300">Fondo:</strong> <span id="noteBase"></span></li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 flex items-center gap-4">
+                            <div id="modalPrice" class="text-3xl font-extrabold text-white">$0</div>
+                            <button id="modalAddToCartBtn" class="add-to-cart-btn px-6 py-3 rounded-md bg-white text-black font-semibold flex items-center gap-2">
+                                <i class="fas fa-shopping-bag"></i> Añadir
+                            </button>
+                        </div>
+                    </div>
+                    <div class="h-96 md:h-full bg-black/30 flex items-center justify-center relative overflow-hidden">
+                        <img id="perfume-image" class="max-h-full object-contain" alt="Perfume Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cart-modal" class="fixed top-0 right-0 h-full w-full md:w-96 bg-gray-900 shadow-2xl transform translate-x-full transition-transform duration-500 ease-in-out z-[60] flex flex-col border-l border-gray-700">
+            <div class="flex justify-between items-center p-6 border-b border-gray-700">
+                <h2 class="text-2xl font-bold text-white">Tu Carrito</h2>
+                <button id="close-cart-btn" class="text-gray-500 hover:text-white"><i class="fas fa-times fa-2x"></i></button>
+            </div>
+            <div id="cart-items" class="flex-grow p-6 overflow-y-auto modal-scroll">
+                <p id="cart-empty-msg" class="text-gray-400 text-center">Tu carrito está vacío.</p>
+            </div>
+            <div class="p-6 border-t border-gray-700 bg-gray-800">
+                <div class="flex justify-between items-center mb-4"><span class="text-xl font-bold text-white">Total:</span><span id="cart-total" class="text-2xl font-bold text-perfume-accent">$0</span></div>
+                <button id="checkout-btn" class="w-full bg-perfume-accent hover:bg-perfume-accent-dark text-white font-bold py-3 rounded-lg text-lg disabled:bg-gray-600 disabled:cursor-not-allowed" disabled>Finalizar Compra</button>
+            </div>
+        </div>
+
+        <div id="checkout-modal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-80 z-[70] p-4 hidden">
+            <div class="bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col transform scale-90 opacity-0 border border-gray-700" id="checkout-box">
+                <div class="flex justify-between items-center p-5 border-b border-gray-700"><h2 class="text-2xl font-bold text-white flex items-center"><i class="fas fa-credit-card text-gray-400 mr-3"></i> Finalizar Compra</h2><button id="close-checkout-btn" class="text-gray-500 hover:text-white"><i class="fas fa-times fa-2x"></i></button></div>
+                <form class="p-6 overflow-y-auto modal-scroll text-gray-300" id="checkout-form">
+                    <h3 class="text-xl font-semibold mb-4 text-white flex items-center"><i class="fas fa-user-circle text-perfume-accent mr-3"></i> Tus Datos</h3>
+                    <div class="space-y-4 mb-8">
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label for="nombre" class="block text-sm font-medium text-gray-400">Nombre Completo</label><div class="relative mt-1"><span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-user text-gray-500"></i></span><input type="text" id="nombre" class="w-full p-2 pl-10 border rounded-lg bg-gray-700 border-gray-600 focus:ring-perfume-accent focus:border-perfume-accent text-white" placeholder="Juan Pérez" required></div></div>
+                            <div><label for="rut" class="block text-sm font-medium text-gray-400">RUT</label><div class="relative mt-1"><span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-id-card text-gray-500"></i></span><input type="text" id="rut" class="w-full p-2 pl-10 border rounded-lg bg-gray-700 border-gray-600 focus:ring-perfume-accent focus:border-perfume-accent text-white" placeholder="11.111.111-1" required></div></div>
+                        </div>
+                        <div><label for="email" class="block text-sm font-medium text-gray-400">Correo Electrónico</label><div class="relative mt-1"><span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-envelope text-gray-500"></i></span><input type="email" id="email" class="w-full p-2 pl-10 border rounded-lg bg-gray-700 border-gray-600 focus:ring-perfume-accent focus:border-perfume-accent text-white" placeholder="juan@correo.com" required></div></div>
+                        <div><label for="direccion" class="block text-sm font-medium text-gray-400">Dirección</label><div class="relative mt-1"><span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-map-marker-alt text-gray-500"></i></span><input type="text" id="direccion" class="w-full p-2 pl-10 border rounded-lg bg-gray-700 border-gray-600 focus:ring-perfume-accent focus:border-perfume-accent text-white" placeholder="Av. Siempre Viva 123" required></div></div>
+                        <div><label for="ciudad" class="block text-sm font-medium text-gray-400">Ciudad</label><div class="relative mt-1"><span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-city text-gray-500"></i></span><input type="text" id="ciudad" class="w-full p-2 pl-10 border rounded-lg bg-gray-700 border-gray-600 focus:ring-perfume-accent focus:border-perfume-accent text-white" placeholder="San Rafael" required></div></div>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4 text-white flex items-center"><i class="fas fa-wallet text-perfume-accent mr-3"></i> Método de Pago</h3>
+                    <div class="space-y-4">
+                        <div><input type="radio" name="payment" id="pago-efectivo" class="hidden" checked><label for="pago-efectivo" class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-700 transition-all border-gray-600"><i class="fas fa-money-bill-wave text-green-400 text-3xl w-10 mr-4"></i><div><span class="font-medium text-white">Efectivo</span><p class="text-sm text-gray-400">Paga al recibir tu pedido.</p></div></label></div>
+                        <div><input type="radio" name="payment" id="pago-transferencia" class="hidden"><label for="pago-transferencia" class="block p-4 border rounded-lg cursor-pointer hover:bg-gray-700 transition-all border-gray-600"><div class="flex items-center"><i class="fas fa-exchange-alt text-blue-400 text-3xl w-10 mr-4"></i><div><span class="font-medium text-white">Transferencia Bancaria</span><p class="text-sm text-gray-400">Sube tu comprobante de pago.</p></div></div><div id="transfer-details" class="hidden mt-4 pt-4 border-t border-gray-600"><p class="text-sm font-medium">Datos para transferir:</p><p class="text-sm font-mono text-gray-400">Cta. Corriente: 12345678 (Banco XYZ)</p><p class="text-sm font-mono text-gray-400">RUT: 11.111.111-1</p><p class="text-sm mt-2 font-medium">Sube tu comprobante:</p><div class="file-input-wrapper mt-1"><button type="button" class="file-input-button">Seleccionar archivo</button><input type="file" id="comprobante-file" accept="image/*,.pdf"></div><span id="file-name" class="text-sm ml-2 text-gray-500">Ningún archivo...</span></div></label></div>
+                        <div><input type="radio" name="payment" id="pago-mercadopago" class="hidden"><label for="pago-mercadopago" class="block p-4 border rounded-lg cursor-pointer hover:bg-gray-700 transition-all border-gray-600"><div class="flex items-center"><i class="fas fa-credit-card text-cyan-400 text-3xl w-10 mr-4"></i><div><span class="font-medium text-white">Tarjeta (vía MercadoPago)</span><p class="text-sm text-gray-400">Paga de forma segura con tarjetas.</p></div></div></label></div>
+                    </div>
+                </form>
+                <div class="p-6 border-t border-gray-700 bg-gray-900 rounded-b-xl">
+                    <div class="flex justify-between items-center mb-4"><span class="text-lg font-medium text-white">Total a Pagar:</span><span id="checkout-total" class="text-3xl font-bold text-perfume-accent">$0</span></div>
+                    <button id="confirm-order-btn" class="w-full bg-perfume-accent hover:bg-perfume-accent-dark text-white font-bold py-3 rounded-lg text-lg flex items-center justify-center space-x-2 transition-transform active:scale-95"><i class="fas fa-check-circle"></i> <span>Confirmar Pedido</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div id="success-modal" class="fixed inset-0 w-full h-full flex items-center justify-center z-[80] hidden" style="background-color: rgba(0,0,0,0.8);">
+            <div id="success-modal-box" class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-sm mx-auto text-center transform scale-90 opacity-0 border border-gray-700">
+                <div class="w-20 h-20 bg-green-900/50 rounded-full flex items-center justify-center mx-auto border-2 border-perfume-success"><i class="fas fa-check text-perfume-success text-5xl"></i></div>
+                <h2 class="text-3xl font-bold text-white mt-6 mb-3">¡Pedido Confirmado!</h2>
+                <p class="text-lg text-gray-400 mb-8">Gracias por tu compra. Tu pedido será procesado. Se enviará la boleta a tu correo.</p>
+                <button id="close-success-btn" class="w-full bg-perfume-success hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg">Aceptar</button>
+            </div>
+        </div>
+
+        <div id="modal-overlay" class="fixed inset-0 bg-black opacity-0 hidden z-40 pointer-events-none"></div> 
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            let cart = [];
+            
+            // --- DOM SELECTORS ---
+            // (Selectores como estaban antes...)
+            const productModal = document.getElementById('productModal');
+            const productModalBox = productModal.querySelector('.relative');
+            const closeProductModalBtn = document.getElementById('closeProductModal');
+            const modelViewer = document.getElementById('perfume-model');
+            const openModalButtons = document.querySelectorAll('.open-modal-btn');
+            const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
+            const openCartBtn = document.getElementById('open-cart-btn');
+            const closeCartBtn = document.getElementById('close-cart-btn');
+            const cartModal = document.getElementById('cart-modal');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalEl = document.getElementById('cart-total');
+            const cartCountEl = document.getElementById('cart-count');
+            const cartEmptyMsg = document.getElementById('cart-empty-msg');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const checkoutModal = document.getElementById('checkout-modal');
+            const checkoutBox = document.getElementById('checkout-box');
+            const closeCheckoutBtn = document.getElementById('close-checkout-btn');
+            const successModal = document.getElementById('success-modal');
+            const successModalBox = document.getElementById('success-modal-box');
+            const closeSuccessBtn = document.getElementById('close-success-btn');
+
+            // --- CHECK PAYMENT SUCCESS ---
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('payment') && urlParams.get('payment') === 'success') {
+                openSuccessModal(); 
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            // --- GSAP ANIMATIONS ---
+            gsap.from('.perfume-card', { y: 30, opacity: 0, stagger: 0.15, duration: 0.8, ease: 'power3.out', delay: 0.5, clearProps: "transform,opacity" }); 
+            gsap.from('header', { y: -20, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+
+            const overlayTimeline = gsap.timeline({ paused: true })
+                .set(modalOverlay, { display: 'block', pointerEvents: 'auto' })
+                .to(modalOverlay, { duration: 0.3, opacity: 0.85, ease: "power2.inOut" });
+
+            const productModalTimeline = gsap.timeline({ paused: true });
+            productModalTimeline
+                .add(() => overlayTimeline.play()) 
+                .set(productModal, { display: 'flex' }) 
+                .fromTo(productModalBox, { scale: 0.95, opacity: 0 }, { duration: 0.5, scale: 1, opacity: 1, ease: "elastic.out(1, 0.7)" });
+
+            function openProductModal(button) {
+                 const data = button.dataset;
+                 document.getElementById('modalTitle').innerText = data.name;
+                 document.getElementById('modalDesc').innerText = data.desc;
+                 document.getElementById('modalPrice').innerText = `$${parseInt(data.price).toLocaleString('es-CL')}`;
+                 document.getElementById('noteOut').innerText = data.notesOut;
+                 document.getElementById('noteHeart').innerText = data.notesHeart;
+                 document.getElementById('noteBase').innerText = data.notesBase;
+                 // Asignar datos al botón DENTRO del modal también
+                 modalAddToCartBtn.dataset.id = data.id;
+                 modalAddToCartBtn.dataset.name = data.name;
+                 modalAddToCartBtn.dataset.price = data.price;
+                 document.getElementById('perfume-image').src = data.imageSrc;
+                 productModalTimeline.play();
+            }
+            function closeProductModal() {
+                 productModalTimeline.reverse().then(() => {
+                    gsap.set(productModal, { display: 'none' }); 
+                    if (!isAnyModalOpenOrAnimating([cartTimeline, checkoutTimeline, successTimeline])) {
+                         overlayTimeline.reverse().then(() => gsap.set(modalOverlay, { pointerEvents: 'none' }));
+                    }
+                 });
+            }
+
+            const cartTimeline = gsap.timeline({ paused: true });
+            cartTimeline
+                .add(() => overlayTimeline.play()) 
+                .fromTo(cartModal, { x: "100%" }, { duration: 0.4, x: 0, ease: "power3.out" }); 
+            
+            function openCart() { cartTimeline.play(); }
+            function closeCart() { 
+                cartTimeline.reverse().then(() => {
+                     if (!isAnyModalOpenOrAnimating([productModalTimeline, checkoutTimeline, successTimeline])) {
+                        overlayTimeline.reverse().then(() => gsap.set(modalOverlay, { pointerEvents: 'none' }));
+                    }
+                });
+            }
+
+            const checkoutTimeline = gsap.timeline({ paused: true });
+            checkoutTimeline
+                .add(() => overlayTimeline.play()) 
+                .set(checkoutModal, { display: 'flex' })
+                .fromTo(checkoutBox, { scale: 0.95, opacity: 0 }, { duration: 0.4, scale: 1, opacity: 1, ease: "elastic.out(1, 0.75)" });
+
+            function openCheckout() {
+                const currentTotal = document.getElementById('cart-total').innerText;
+                document.getElementById('checkout-total').innerText = currentTotal;
+                if (cartTimeline.progress() > 0) { 
+                    closeCart(); 
+                    setTimeout(() => { checkoutTimeline.play(); }, 150); 
+                } else {
+                     checkoutTimeline.play(); 
+                }
+            }
+            function closeCheckout() {
+                checkoutTimeline.reverse().then(() => {
+                    gsap.set(checkoutModal, { display: 'none' });
+                     if (!isAnyModalOpenOrAnimating([productModalTimeline, cartTimeline, successTimeline])) {
+                        overlayTimeline.reverse().then(() => gsap.set(modalOverlay, { pointerEvents: 'none' }));
+                    }
+                });
+            }
+
+            const successTimeline = gsap.timeline({ paused: true });
+            successTimeline
+                .add(() => overlayTimeline.play()) 
+                .set(successModal, { display: 'flex' })
+                .fromTo(successModalBox, { scale: 0.95, opacity: 0 }, { duration: 0.4, scale: 1, opacity: 1, ease: "elastic.out(1, 0.75)" });
+
+            function openSuccessModal() {
+                successTimeline.play();
+            }
+            function closeSuccessModal() {
+                successTimeline.reverse().then(() => {
+                    gsap.set(successModal, { display: 'none' });
+                    overlayTimeline.reverse().then(() => gsap.set(modalOverlay, { pointerEvents: 'none' })); 
+                });
+            }
+
+            function isAnyModalOpenOrAnimating(timelines) {
+                return timelines.some(tl => tl.isActive() || tl.progress() > 0);
+            }
+
+            function animateAddToCart(button) {
+                gsap.fromTo(button, { scale: 1 }, { scale: 1.05, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" });
+                gsap.fromTo("#open-cart-btn", { scale: 1 }, { scale: 1.2, y: -2, duration: 0.2, yoyo: true, repeat: 1, ease: "elastic.out(1, 0.3)" });
+            }
+
+            // --- CART LOGIC ---
+             function addToCart(e) {
+                const button = e.target.closest('.add-to-cart-btn');
+                if (!button) return;
+                // Solo animar si el click NO es el del modal interno (para evitar doble animación)
+                if (!button.closest('#productModal')) {
+                    animateAddToCart(button);
+                }
+                const id = button.dataset.id;
+                const existingItem = cart.find(item => item.id === id);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ id: id, name: button.dataset.name, price: parseInt(button.dataset.price), quantity: 1 });
+                }
+                updateCartUI();
+                // Cerrar el modal del producto después de añadir al carrito
+                closeProductModal();
+            }
+
+            function updateCartUI() {
+                 if (!cartItemsContainer) return;
+                if (cart.length === 0) {
+                    cartEmptyMsg.style.display = 'block';
+                    cartItemsContainer.innerHTML = '';
+                    cartTotalEl.innerText = '$0';
+                    cartCountEl.innerText = '0';
+                    checkoutBtn.disabled = true;
+                    return;
+                }
+                cartEmptyMsg.style.display = 'none';
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+                let totalItems = 0;
+                cart.forEach(item => {
+                    total += item.price * item.quantity;
+                    totalItems += item.quantity;
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'flex justify-between items-center mb-4 py-2 border-b border-gray-700'; 
+                    itemEl.innerHTML = `
+                        <div class="text-sm">
+                            <h4 class="font-semibold text-gray-100">${item.name}</h4>
+                            <p class="text-gray-400">Cantidad: ${item.quantity}</p>
+                        </div>
+                        <span class="font-semibold text-gray-200">$${(item.price * item.quantity).toLocaleString('es-CL')}</span>
+                        <button class="remove-from-cart text-red-500 hover:text-red-400 ml-2" data-id="${item.id}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    cartItemsContainer.appendChild(itemEl);
+                });
+                cartTotalEl.innerText = `$${total.toLocaleString('es-CL')}`;
+                cartCountEl.innerText = totalItems;
+                checkoutBtn.disabled = false;
+            }
+            
+            function handleCartClick(e) {
+                if (e.target.closest('.remove-from-cart')) {
+                    const id = e.target.closest('.remove-from-cart').dataset.id;
+                    cart = cart.filter(item => item.id !== id);
+                    updateCartUI();
+                }
+            }
+
+            // --- CHECKOUT FORM LOGIC ---
+            const paymentRadios = document.querySelectorAll('input[name="payment"]');
+            const transferDetails = document.getElementById('transfer-details');
+             if(paymentRadios.length > 0 && transferDetails) { 
+                paymentRadios.forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        gsap.to(transferDetails, {height: 0, opacity: 0, duration: 0.3, onComplete: () => transferDetails.style.display = 'none'});
+                        if (radio.id === 'pago-transferencia' && radio.checked) {
+                             transferDetails.style.display = 'block'; 
+                             gsap.fromTo(transferDetails, {height: 0, opacity: 0}, {height: 'auto', opacity: 1, duration: 0.4, ease: 'power2.out'});
+                        }
+                    });
+                });
+             }
+
+            const fileInput = document.getElementById('comprobante-file');
+            const fileNameEl = document.getElementById('file-name');
+            if (fileInput && fileNameEl) fileInput.addEventListener('change', () => { fileNameEl.textContent = fileInput.files[0] ? fileInput.files[0].name : 'Ningún archivo...'; });
+            
+            // --- CONFIRM ORDER LOGIC ---
+            const confirmOrderBtn = document.getElementById('confirm-order-btn');
+            if (confirmOrderBtn) {
+                confirmOrderBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const form = document.getElementById('checkout-form');
+                     if (!form) return; 
+                    
+                    if (!form.checkValidity()) {
+                        form.reportValidity(); 
+                        alert('Por favor, completa todos los campos de "Tus Datos".'); 
+                        return;
+                    }
+
+                    const selectedPaymentRadio = document.querySelector('input[name="payment"]:checked');
+                    if (!selectedPaymentRadio) {
+                         alert('Por favor, selecciona un método de pago.'); 
+                         return;
+                    }
+                    const selectedPayment = selectedPaymentRadio.id;
+                    
+                    if (selectedPayment === 'pago-mercadopago') {
+                        let totalText = cartTotalEl.innerText.replace('$', '').replace(/\./g, '');
+                        let total = parseInt(totalText);
+                        window.location.href = `mercadopago.html?total=${total}&origin=perfumeria`; 
+
+                    } else {
+                        closeCheckout();
+                        setTimeout(() => { openSuccessModal(); }, 300); 
+                        cart = []; 
+                        updateCartUI();
+                    }
+                });
+            }
+
+            // --- EVENT LISTENERS ---
+            // **** CORRECCIÓN AQUÍ ****
+            openModalButtons.forEach(btn => btn.addEventListener('click', (e) => {
+                const buttonElement = e.target.closest('.open-modal-btn');
+                if (buttonElement) {
+                     // NO añadir al carrito aquí
+                     // addToCart(e); 
+                     openProductModal(buttonElement); // SOLO abrir el modal
+                 }
+            }));
+            // El botón DENTRO del modal ahora es el único que añade al carrito
+            if (modalAddToCartBtn) modalAddToCartBtn.addEventListener('click', addToCart); 
+            // **** FIN CORRECCIÓN ****
+
+            if (closeProductModalBtn) closeProductModalBtn.addEventListener('click', closeProductModal);
+            
+            if (openCartBtn) openCartBtn.addEventListener('click', openCart);
+            if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
+            if (cartItemsContainer) cartItemsContainer.addEventListener('click', handleCartClick);
+            
+            if (checkoutBtn) checkoutBtn.addEventListener('click', openCheckout);
+            if (closeCheckoutBtn) closeCheckoutBtn.addEventListener('click', closeCheckout);
+            
+            if (closeSuccessBtn) closeSuccessBtn.addEventListener('click', closeSuccessModal);
+
+            if (modalOverlay) modalOverlay.addEventListener('click', () => { 
+                if (productModalTimeline.isActive() || cartTimeline.isActive() || checkoutTimeline.isActive() || successTimeline.isActive()) return; 
+
+                if (!productModal.classList.contains('hidden')) closeProductModal();
+                else if (cartTimeline.progress() > 0) closeCart();
+                else if (!checkoutModal.classList.contains('hidden')) closeCheckout();
+            });
+            
+            window.addEventListener('keydown', (e) => { 
+                if(e.key === 'Escape' && !productModal.classList.contains('hidden')) closeProductModal(); 
+            });
+
+
+            updateCartUI(); // Initial cart render
+        });
+    </script>
+</body>
+</html>
