@@ -105,10 +105,16 @@
                     </button>
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden text-e-rojo">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+                <!-- Mobile Cart and Menu Buttons -->
+                <div class="md:hidden flex items-center space-x-3">
+                    <button id="open-cart-btn-mobile" class="relative text-e-rojo">
+                        <i class="fas fa-shopping-cart text-2xl"></i>
+                        <span id="cart-count-mobile" class="absolute -top-2 -right-2 bg-e-amarillo text-e-rojo-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    <button id="mobile-menu-btn" class="text-e-rojo">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -606,6 +612,13 @@
             // Update total
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             cartTotal.textContent = `$${total.toLocaleString()}`;
+            
+            // Update mobile cart count
+            const cartCountMobile = document.getElementById('cart-count-mobile');
+            if (cartCountMobile) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCountMobile.textContent = totalItems;
+            }
         }
 
         // Handle cart interactions
@@ -762,7 +775,7 @@
                 }
             });
             
-            // Open cart button
+            // Open cart button (desktop)
             if (openCartBtn) {
                 openCartBtn.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -772,6 +785,17 @@
                 });
             } else {
                 console.error('openCartBtn not found');
+            }
+            
+            // Open cart button (mobile)
+            const openCartBtnMobile = document.getElementById('open-cart-btn-mobile');
+            if (openCartBtnMobile) {
+                openCartBtnMobile.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    console.log('Open cart mobile clicked');
+                    cartModal.classList.remove('hidden');
+                    gsap.from(cartModal, { duration: 0.3, opacity: 0, scale: 0.9, ease: "power2.out" });
+                });
             }
             
             // Close cart button

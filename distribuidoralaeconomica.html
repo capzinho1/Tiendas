@@ -102,10 +102,16 @@
                     </button>
             </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden text-e-rojo">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+                <!-- Mobile Cart and Menu Buttons -->
+                <div class="md:hidden flex items-center space-x-3">
+                    <button id="open-cart-btn-mobile" class="relative text-e-rojo">
+                        <i class="fas fa-shopping-cart text-2xl"></i>
+                        <span id="cart-count-mobile" class="absolute -top-2 -right-2 bg-e-amarillo text-e-rojo-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    <button id="mobile-menu-btn" class="text-e-rojo">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
             </div>
             </div>
         </nav>
@@ -541,9 +547,11 @@
 
         // Update cart UI
         function updateCartUI() {
-            // Update cart count
+            // Update cart count (desktop and mobile)
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             cartCount.textContent = totalItems;
+            const cartCountMobile = document.getElementById('cart-count-mobile');
+            if (cartCountMobile) cartCountMobile.textContent = totalItems;
             
             // Update cart items
             if (cart.length === 0) {
@@ -676,6 +684,13 @@
             });
             
             if (openCartBtn) openCartBtn.addEventListener('click', () => {
+                cartModal.classList.remove('hidden');
+                gsap.from(cartModal, { duration: 0.3, opacity: 0, scale: 0.9, ease: "power2.out" });
+            });
+            
+            // Mobile cart button
+            const openCartBtnMobile = document.getElementById('open-cart-btn-mobile');
+            if (openCartBtnMobile) openCartBtnMobile.addEventListener('click', () => {
                 cartModal.classList.remove('hidden');
                 gsap.from(cartModal, { duration: 0.3, opacity: 0, scale: 0.9, ease: "power2.out" });
             });
