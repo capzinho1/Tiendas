@@ -480,7 +480,7 @@
             if (cartItemsContainer) cartItemsContainer.addEventListener('click', handleCartClick);
             if (checkoutBtn) checkoutBtn.addEventListener('click', () => {
                 const total = cartTotalEl.innerText.replace('$', '').replace(/\./g, '');
-                window.location.href = `mercadopago.html?total=${total}&origin=perfumes-arabes`;
+                window.location.href = `mercadopago.html?total=${total}&origin=perfumes-arabes-page`;
             });
             
             if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
