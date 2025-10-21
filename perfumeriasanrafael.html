@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Perfumería San Rafael — Showcase 3D</title>
+    <title>Perfumería San Rafael — Colección Exclusiva</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -35,11 +35,40 @@
         .modal-scroll::-webkit-scrollbar-thumb { background: #4a5568; border-radius: 4px; }
         .modal-scroll::-webkit-scrollbar-thumb:hover { background: #718096; }
         input[type="text"], input[type="email"]{ background-color: #1f2937; border-color: #4b5563; color: #e5e7eb; }
-        input[type="text"]:focus, input[type="email"]:focus{ border-color: var(--accent); ring: 1; ring-color: var(--accent); }
+        input[type="text"]:focus, input[type="email"]:focus{ border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
         input[type="radio"]:checked + label { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(230, 230, 230, 0.2); }
         .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; cursor: pointer; }
         .file-input-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; }
         .file-input-button { background-color: #4a5568; color: #e5e7eb; border: 1px solid #4b5563; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
+        
+        /* Carousel Styles */
+        .carousel-container { position: relative; }
+        .carousel-slide { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            opacity: 0; 
+            transition: opacity 1.5s ease-in-out; 
+        }
+        .carousel-slide.active { opacity: 1; }
+        .carousel-indicator.active { background-color: rgba(255, 255, 255, 0.9) !important; }
+        .carousel-nav:hover { background-color: rgba(0, 0, 0, 0.6) !important; }
+        
+        /* Category Cards Styles */
+        .category-card { 
+            transition: all 0.3s ease; 
+        }
+        .category-card:hover { 
+            transform: translateY(-5px); 
+        }
+        .category-card .rounded-full { 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+        }
+        .category-card:hover .rounded-full { 
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3); 
+        }
     </style>
 </head>
 <body class="text-gray-200 antialiased">
@@ -47,13 +76,13 @@
         <header class="max-w-6xl mx-auto flex items-center justify-between">
             <div>
                 <h1 class="text-3xl font-extrabold tracking-tight text-white">Perfumería <span class="text-gray-400">San Rafael</span></h1>
-                <p class="text-sm text-gray-500">Colección Exclusiva · Experiencia 3D</p>
+                <p class="text-sm text-gray-500">Colección Exclusiva · Fragancias Premium</p>
             </div>
             <!-- Desktop Navigation -->
             <nav class="hidden md:flex space-x-2 items-center">
                 <a href="index.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Quiénes Somos</a>
-                <a href="distribuidoralaeconomica.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Distribuidora</a>
-                <a href="farmacia.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Farmacia</a>
+                <a href="../distribuidoralaeconomica.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Distribuidora</a>
+                <a href="../farmacia.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Farmacia</a>
                 <button id="open-cart-btn" class="relative text-gray-400 hover:text-white transition-colors ml-4 px-3 py-2">
                     <i class="fas fa-shopping-bag fa-lg"></i>
                     <span id="cart-count" class="absolute -top-1 -right-1 bg-perfume-accent text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center text-[10px]">0</span>
@@ -78,24 +107,189 @@
                 </button>
             </div>
             <nav class="flex flex-col items-center space-y-6 mt-16">
-                <a href="index.html" class="text-white text-xl hover:text-perfume-accent transition-colors">Quiénes Somos</a>
-                <a href="distribuidoralaeconomica.html" class="text-white text-xl hover:text-perfume-accent transition-colors">Distribuidora</a>
-                <a href="farmacia.html" class="text-white text-xl hover:text-perfume-accent transition-colors">Farmacia</a>
+                <a href="index.html" class="text-white text-xl hover:text-perfume-accent transition-colors mobile-menu-link">🏠 Página Principal</a>
+                <a href="index.html" class="text-white text-xl hover:text-perfume-accent transition-colors mobile-menu-link">Inicio</a>
+                <a href="perfumes-mujer.html" class="text-white text-xl hover:text-perfume-accent transition-colors mobile-menu-link">Mujer</a>
+                <a href="perfumes-hombre.html" class="text-white text-xl hover:text-perfume-accent transition-colors mobile-menu-link">Hombre</a>
+                <a href="estuches.html" class="text-white text-xl hover:text-perfume-accent transition-colors mobile-menu-link">Estuches</a>
+                <a href="perfumes-arabes.html" class="text-white text-xl hover:text-perfume-accent transition-colors mobile-menu-link">Árabes</a>
             </nav>
         </div>
 
-        <section class="max-w-6xl mx-auto mt-16">
-            <div class="grid perfume-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <article class="perfume-card group relative rounded-2xl p-6 border border-gray-800 hover:border-gray-600 transition transform hover:-translate-y-1 glow">
-                    <div class="h-64 flex items-center justify-center mb-4">
-                        <img src="https://www.pamelita.cl/wp-content/uploads/174815.png" alt="Millionaire Red" class="max-h-full transition-transform group-hover:scale-105 object-contain">
+        <!-- Breadcrumbs -->
+        <nav class="max-w-6xl mx-auto mt-8 mb-4" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-2 text-sm">
+                <li>
+                    <a href="distribuidoralaeconomica.html" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-home mr-1"></i>Inicio
+                    </a>
+                </li>
+                <li class="text-gray-500">
+                    <i class="fas fa-chevron-right mx-2"></i>
+                </li>
+                <li class="text-white font-medium">
+                    <i class="fas fa-perfume-bottle mr-1"></i>Perfumería
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Hero Banner Section -->
+        <section class="max-w-6xl mx-auto mt-8 mb-16">
+            <div class="hero-banner relative overflow-hidden rounded-2xl border border-gray-800 glow">
+                <div class="relative h-96 md:h-[500px] flex items-center justify-center">
+                    <!-- Carousel Container -->
+                    <div class="carousel-container absolute inset-0">
+                        <!-- Image 1 -->
+                        <div class="carousel-slide active">
+                            <img src="../img/image.png" alt="Perfumería Banner 1" class="absolute inset-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-gray-800/80"></div>
                     </div>
-                    <h3 class="mt-4 text-lg font-semibold text-white">Millionaire Red</h3>
-                    <p class="text-sm text-gray-400">Fragancia masculina amaderada especiada, para un hombre audaz.</p>
-                    <div class="mt-4 flex items-center justify-between">
-                        <div class="text-xl font-bold text-gray-300">$12.000</div>
-                        <button class="open-modal-btn ml-4 px-4 py-2 rounded-md text-sm bg-white text-black font-semibold"
+                        <!-- Image 2 -->
+                        <div class="carousel-slide">
+                            <img src="../img/image 2.png" alt="Perfumería Banner 2" class="absolute inset-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-gray-800/80"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Overlay -->
+                    <div class="relative z-20 text-center px-6">
+                        <h2 class="text-4xl md:text-6xl font-extrabold text-white mb-4 tracking-tight">
+                            Perfumes <span class="text-perfume-accent">Exclusivos</span>
+                        </h2>
+                        <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                            Para ella, para él y fragancias árabes únicas. 
+                            Descubre tu esencia perfecta con nuestra colección premium.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button id="explore-collection-btn" class="px-8 py-3 bg-perfume-accent hover:bg-perfume-accent-dark text-white font-semibold rounded-lg transition-all transform hover:scale-105">
+                                <i class="fas fa-shopping-bag mr-2"></i>
+                                Explorar Colección
+                            </button>
+                            <button id="view-products-btn" class="px-8 py-3 border border-gray-400 text-gray-300 hover:text-white hover:border-white font-semibold rounded-lg transition-all">
+                                <i class="fas fa-eye mr-2"></i>
+                                Ver Productos
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Carousel Indicators -->
+                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-30 flex space-x-2">
+                        <button class="carousel-indicator active w-3 h-3 rounded-full bg-white/80 hover:bg-white transition-all"></button>
+                        <button class="carousel-indicator w-3 h-3 rounded-full bg-white/40 hover:bg-white/60 transition-all"></button>
+                    </div>
+                    
+                    <!-- Navigation Arrows -->
+                    <button class="carousel-nav carousel-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-30 w-10 h-10 bg-black/30 hover:bg-black/50 text-white rounded-full flex items-center justify-center transition-all">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-nav carousel-next absolute right-4 top-1/2 transform -translate-y-1/2 z-30 w-10 h-10 bg-black/30 hover:bg-black/50 text-white rounded-full flex items-center justify-center transition-all">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="max-w-4xl mx-auto mb-12">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Categorías de Perfumes</h2>
+                <p class="text-gray-400 text-sm">Explora nuestra selección por categorías</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Perfumes de Mujer -->
+                <div class="category-card group cursor-pointer text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-2 border-gray-700 group-hover:border-perfume-accent transition-all duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-br from-pink-400/20 to-purple-500/20"></div>
+                        <img src="../img/perfume mujer.png" alt="Perfumes de Mujer" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+                    <h3 class="text-sm font-semibold text-white mb-1">Mujer</h3>
+                    <a href="#" class="category-link text-xs text-gray-400 hover:text-perfume-accent transition-colors">
+                        Ver categoría
+                    </a>
+                </div>
+
+                <!-- Perfumes de Hombre -->
+                <div class="category-card group cursor-pointer text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-2 border-gray-700 group-hover:border-perfume-accent transition-all duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-cyan-500/20"></div>
+                        <img src="../img/perrfume hombre.png" alt="Perfumes de Hombre" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+                    <h3 class="text-sm font-semibold text-white mb-1">Hombre</h3>
+                    <a href="#" class="category-link text-xs text-gray-400 hover:text-perfume-accent transition-colors">
+                        Ver categoría
+                    </a>
+                </div>
+
+                <!-- Estuches -->
+                <div class="category-card group cursor-pointer text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-2 border-gray-700 group-hover:border-perfume-accent transition-all duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-br from-amber-400/20 to-orange-500/20"></div>
+                        <img src="../img/image.png" alt="Estuches" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+                    <h3 class="text-sm font-semibold text-white mb-1">Estuches</h3>
+                    <a href="#" class="category-link text-xs text-gray-400 hover:text-perfume-accent transition-colors">
+                        Ver categoría
+                    </a>
+                </div>
+
+                <!-- Perfumes Árabes -->
+                <div class="category-card group cursor-pointer text-center">
+                    <div class="relative w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-2 border-gray-700 group-hover:border-perfume-accent transition-all duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-amber-500/20"></div>
+                        <img src="../img/perfume arabe.png" alt="Perfumes Árabes" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+                    <h3 class="text-sm font-semibold text-white mb-1">Árabes</h3>
+                    <a href="#" class="category-link text-xs text-gray-400 hover:text-perfume-accent transition-colors">
+                        Ver categoría
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Bar Section -->
+        <section class="max-w-4xl mx-auto mb-12">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Buscar Perfumes</h2>
+                <p class="text-gray-400 text-sm">Encuentra tu fragancia perfecta</p>
+            </div>
+            
+            <div class="relative max-w-2xl mx-auto">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="Buscar por nombre, marca o notas..." 
+                           class="w-full px-4 py-3 pl-12 pr-4 bg-gray-800 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                    <button id="clearSearch" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-white transition-colors hidden">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="searchResults" class="mt-4 hidden">
+                    <div class="bg-gray-800 rounded-xl p-4 border border-gray-600">
+                        <p class="text-gray-400 text-sm">Resultados de búsqueda:</p>
+                        <div id="searchResultsList" class="mt-2 space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Nuestra Colección</h2>
+                <p class="text-gray-400 text-lg">Descubre los perfumes más exclusivos</p>
+            </div>
+            <div class="grid perfume-grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <article class="perfume-card group relative bg-gray-900 rounded-xl p-3 border border-gray-700 hover:border-gray-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 glow">
+                    <!-- Discount Badge -->
+                    <div class="absolute top-1 left-1 z-10">
+                        <span class="bg-pink-500 text-white px-1.5 py-0.5 rounded text-xs font-bold">-25%</span>
+                    </div>
+                    
+                    <!-- Product Image -->
+                    <div class="h-32 flex items-center justify-center mb-3 cursor-pointer relative">
+                        <img src="https://www.pamelita.cl/wp-content/uploads/174815.png" alt="Millionaire Red" class="max-h-full transition-transform group-hover:scale-105 object-contain open-modal-btn"
                                 data-id="P001"
                                 data-name="Millionaire Red"
                                 data-price="12000"
@@ -103,20 +297,73 @@
                                 data-notes-out="Naranja Sanguina, Pomelo"
                                 data-notes-heart="Geranio, Pimienta Rosa"
                                 data-notes-base="Cedro, Pachulí"
-                                data-image-src="https://www.pamelita.cl/wp-content/uploads/174815.png"> Ver
+                             data-image-src="https://www.pamelita.cl/wp-content/uploads/174815.png">
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="space-y-1.5">
+                        <!-- Brand -->
+                        <p class="text-xs text-gray-400">Millionaire</p>
+                        
+                        <!-- Product Name -->
+                        <h3 class="text-sm font-bold text-white cursor-pointer open-modal-btn"
+                            data-id="P001"
+                            data-name="Millionaire Red"
+                            data-price="12000"
+                            data-desc="Fragancia masculina amaderada especiada, para un hombre audaz y apasionado."
+                            data-notes-out="Naranja Sanguina, Pomelo"
+                            data-notes-heart="Geranio, Pimienta Rosa"
+                            data-notes-base="Cedro, Pachulí"
+                            data-image-src="https://www.pamelita.cl/wp-content/uploads/174815.png">Millionaire Red EDP 100ml</h3>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center space-x-1">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-400">(12)</span>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold text-amber-400">$12.000</span>
+                            <span class="text-xs text-gray-500 line-through">$16.000</span>
+                        </div>
+                        
+                        <!-- Quantity Selector -->
+                        <div class="flex items-center justify-center space-x-2 py-1">
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="decrease">
+                                <i class="fas fa-minus text-xs text-gray-300"></i>
+                            </button>
+                            <span class="quantity-display text-sm font-semibold min-w-[16px] text-center text-white">1</span>
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="increase">
+                                <i class="fas fa-plus text-xs text-gray-300"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Add to Cart Button -->
+                        <button class="add-to-cart-btn w-full py-2 rounded-lg text-gray-900 font-bold bg-amber-400 hover:bg-amber-300 transition-colors text-sm"
+                                data-id="P001"
+                                data-name="Millionaire Red"
+                                data-price="12000">
+                            <i class="fas fa-shopping-bag mr-1"></i>Agregar
                         </button>
                     </div>
                 </article>
 
-                <article class="perfume-card group relative rounded-2xl p-6 border border-gray-800 hover:border-gray-600 transition transform hover:-translate-y-1 glow">
-                    <div class="h-64 flex items-center justify-center mb-4">
-                        <img src="https://cdnx.jumpseller.com/nym-perfumeria/image/48863977/resize/280/280?1715961396" alt="Adidas Get Ready!" class="max-h-full transition-transform group-hover:scale-105 object-contain">
+                <article class="perfume-card group relative bg-gray-900 rounded-xl p-3 border border-gray-700 hover:border-gray-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 glow">
+                    <!-- Discount Badge -->
+                    <div class="absolute top-1 left-1 z-10">
+                        <span class="bg-green-500 text-white px-1.5 py-0.5 rounded text-xs font-bold">-40%</span>
                     </div>
-                    <h3 class="mt-4 text-lg font-semibold text-white">Adidas Get Ready!</h3>
-                    <p class="text-sm text-gray-400">Fragancia amaderada y aromática para hombre, fresca y energizante.</p>
-                    <div class="mt-4 flex items-center justify-between">
-                        <div class="text-xl font-bold text-gray-300">$5.000</div>
-                        <button class="open-modal-btn ml-4 px-4 py-2 rounded-md text-sm bg-white text-black font-semibold"
+                    
+                    <!-- Product Image -->
+                    <div class="h-32 flex items-center justify-center mb-3 cursor-pointer relative">
+                        <img src="https://cdnx.jumpseller.com/sairam/image/6308255/thumb/1500/1500?1565978800" alt="Adidas Get Ready!" class="max-h-full transition-transform group-hover:scale-105 object-contain open-modal-btn"
                                 data-id="P002"
                                 data-name="Adidas Get Ready!"
                                 data-price="5000"
@@ -124,20 +371,73 @@
                                 data-notes-out="Mandarina, Piña, Notas Marinas"
                                 data-notes-heart="Frutas Exóticas, Salvia"
                                 data-notes-base="Cedro, Sándalo"
-                                data-image-src="https://cdnx.jumpseller.com/nym-perfumeria/image/48863977/resize/280/280?1715961396"> Ver
+                             data-image-src="https://cdnx.jumpseller.com/sairam/image/6308255/thumb/1500/1500?1565978800">
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="space-y-1.5">
+                        <!-- Brand -->
+                        <p class="text-xs text-gray-400">Adidas</p>
+                        
+                        <!-- Product Name -->
+                        <h3 class="text-sm font-bold text-white cursor-pointer open-modal-btn"
+                            data-id="P002"
+                            data-name="Adidas Get Ready!"
+                            data-price="5000"
+                            data-desc="Adidas Get Ready! for Him es una fragancia amaderada y aromática, inspirada en la vitalidad."
+                            data-notes-out="Mandarina, Piña, Notas Marinas"
+                            data-notes-heart="Frutas Exóticas, Salvia"
+                            data-notes-base="Cedro, Sándalo"
+                            data-image-src="https://cdnx.jumpseller.com/sairam/image/6308255/thumb/1500/1500?1565978800">Get Ready! EDT 100ml</h3>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center space-x-1">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="far fa-star text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-400">(8)</span>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold text-amber-400">$5.000</span>
+                            <span class="text-xs text-gray-500 line-through">$8.500</span>
+                        </div>
+                        
+                        <!-- Quantity Selector -->
+                        <div class="flex items-center justify-center space-x-2 py-1">
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="decrease">
+                                <i class="fas fa-minus text-xs text-gray-300"></i>
+                            </button>
+                            <span class="quantity-display text-sm font-semibold min-w-[16px] text-center text-white">1</span>
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="increase">
+                                <i class="fas fa-plus text-xs text-gray-300"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Add to Cart Button -->
+                        <button class="add-to-cart-btn w-full py-2 rounded-lg text-gray-900 font-bold bg-amber-400 hover:bg-amber-300 transition-colors text-sm"
+                                data-id="P002"
+                                data-name="Adidas Get Ready!"
+                                data-price="5000">
+                            <i class="fas fa-shopping-bag mr-1"></i>Agregar
                         </button>
                     </div>
                 </article>
 
-                <article class="perfume-card group relative rounded-2xl p-6 border border-gray-800 hover:border-gray-600 transition transform hover:-translate-y-1 glow">
-                     <div class="h-64 flex items-center justify-center mb-4">
-                        <img src="https://perfumescolombia.com/wp-content/uploads/2023/06/Invictus-Victory.webp" alt="Invictus Victory" class="max-h-full transition-transform group-hover:scale-105 object-contain">
+                <article class="perfume-card group relative bg-gray-900 rounded-xl p-3 border border-gray-700 hover:border-gray-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 glow">
+                    <!-- Discount Badge -->
+                    <div class="absolute top-1 left-1 z-10">
+                        <span class="bg-red-500 text-white px-1.5 py-0.5 rounded text-xs font-bold">-15%</span>
                     </div>
-                    <h3 class="mt-4 text-lg font-semibold text-white">Invictus Victory</h3> 
-                    <p class="text-sm text-gray-400">Una fragancia ambarina fresca y potente, un duelo entre frescura y sensualidad.</p> 
-                    <div class="mt-4 flex items-center justify-between">
-                        <div class="text-xl font-bold text-gray-300">$88.000</div>
-                        <button class="open-modal-btn ml-4 px-4 py-2 rounded-md text-sm bg-white text-black font-semibold"
+                    
+                    <!-- Product Image -->
+                    <div class="h-32 flex items-center justify-center mb-3 cursor-pointer relative">
+                        <img src="https://perfumescolombia.com/wp-content/uploads/2023/06/Invictus-Victory.webp" alt="Invictus Victory" class="max-h-full transition-transform group-hover:scale-105 object-contain open-modal-btn"
                                 data-id="P003"
                                 data-name="Invictus Victory"
                                 data-price="88000"
@@ -145,7 +445,360 @@
                                 data-notes-out="Limón, Pimienta Rosa"
                                 data-notes-heart="Incienso, Lavanda"
                                 data-notes-base="Haba Tonka, Ámbar"
-                                data-image-src="https://perfumescolombia.com/wp-content/uploads/2023/06/Invictus-Victory.webp"> Ver
+                             data-image-src="https://perfumescolombia.com/wp-content/uploads/2023/06/Invictus-Victory.webp">
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="space-y-1.5">
+                        <!-- Brand -->
+                        <p class="text-xs text-gray-400">Paco Rabanne</p>
+                        
+                        <!-- Product Name -->
+                        <h3 class="text-sm font-bold text-white cursor-pointer open-modal-btn"
+                            data-id="P003"
+                            data-name="Invictus Victory"
+                            data-price="88000"
+                            data-desc="Un choque entre frescura penetrante y sensualidad magnética. Intensamente masculino."
+                            data-notes-out="Limón, Pimienta Rosa"
+                            data-notes-heart="Incienso, Lavanda"
+                            data-notes-base="Haba Tonka, Ámbar"
+                            data-image-src="https://perfumescolombia.com/wp-content/uploads/2023/06/Invictus-Victory.webp">Invictus Victory EDT 100ml</h3>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center space-x-1">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-400">(15)</span>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold text-amber-400">$88.000</span>
+                            <span class="text-xs text-gray-500 line-through">$103.500</span>
+                        </div>
+                        
+                        <!-- Quantity Selector -->
+                        <div class="flex items-center justify-center space-x-2 py-1">
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="decrease">
+                                <i class="fas fa-minus text-xs text-gray-300"></i>
+                            </button>
+                            <span class="quantity-display text-sm font-semibold min-w-[16px] text-center text-white">1</span>
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="increase">
+                                <i class="fas fa-plus text-xs text-gray-300"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Add to Cart Button -->
+                        <button class="add-to-cart-btn w-full py-2 rounded-lg text-gray-900 font-bold bg-amber-400 hover:bg-amber-300 transition-colors text-sm"
+                                data-id="P003"
+                                data-name="Invictus Victory"
+                                data-price="88000">
+                            <i class="fas fa-shopping-bag mr-1"></i>Agregar
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Perfume de Hombre - Valentino -->
+                <article class="perfume-card group relative bg-gray-900 rounded-xl p-3 border border-gray-700 hover:border-gray-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 glow">
+                    <!-- Discount Badge -->
+                    <div class="absolute top-1 left-1 z-10">
+                        <span class="bg-purple-500 text-white px-1.5 py-0.5 rounded text-xs font-bold">-20%</span>
+                    </div>
+                    
+                    <!-- Product Image -->
+                    <div class="h-32 flex items-center justify-center mb-3 cursor-pointer relative">
+                        <img src="https://perfumescolombia.com/wp-content/uploads/2025/08/Valentino4.webp" alt="Valentino Uomo Born In Roma" class="max-h-full transition-transform group-hover:scale-105 object-contain open-modal-btn"
+                             data-id="P004"
+                             data-name="Valentino Uomo Born In Roma"
+                             data-price="119000"
+                             data-desc="Ideal para quienes no siguen las reglas, ¡las crean! Con notas de salvia aromática, vetiver ahumado y jengibre picante."
+                             data-notes-out="Salvia Aromática, Jengibre Picante"
+                             data-notes-heart="Vetiver Ahumado"
+                             data-notes-base="Notas Especiadas"
+                             data-image-src="https://perfumescolombia.com/wp-content/uploads/2025/08/Valentino4.webp">
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="space-y-1.5">
+                        <!-- Brand -->
+                        <p class="text-xs text-gray-400">Valentino</p>
+                        
+                        <!-- Product Name -->
+                        <h3 class="text-sm font-bold text-white cursor-pointer open-modal-btn"
+                            data-id="P004"
+                            data-name="Valentino Uomo Born In Roma"
+                            data-price="119000"
+                            data-desc="Ideal para quienes no siguen las reglas, ¡las crean! Con notas de salvia aromática, vetiver ahumado y jengibre picante."
+                            data-notes-out="Salvia Aromática, Jengibre Picante"
+                            data-notes-heart="Vetiver Ahumado"
+                            data-notes-base="Notas Especiadas"
+                            data-image-src="https://perfumescolombia.com/wp-content/uploads/2025/08/Valentino4.webp">Uomo Born In Roma EDT 100ml</h3>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center space-x-1">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-400">(20)</span>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold text-amber-400">$119.000</span>
+                            <span class="text-xs text-gray-500 line-through">$148.750</span>
+                        </div>
+                        
+                        <!-- Quantity Selector -->
+                        <div class="flex items-center justify-center space-x-2 py-1">
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="decrease">
+                                <i class="fas fa-minus text-xs text-gray-300"></i>
+                            </button>
+                            <span class="quantity-display text-sm font-semibold min-w-[16px] text-center text-white">1</span>
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="increase">
+                                <i class="fas fa-plus text-xs text-gray-300"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Add to Cart Button -->
+                        <button class="add-to-cart-btn w-full py-2 rounded-lg text-gray-900 font-bold bg-amber-400 hover:bg-amber-300 transition-colors text-sm"
+                                data-id="P004"
+                                data-name="Valentino Uomo Born In Roma"
+                                data-price="119000">
+                            <i class="fas fa-shopping-bag mr-1"></i>Agregar
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Perfume de Mujer - 212 Sexy -->
+                <article class="perfume-card group relative bg-gray-900 rounded-xl p-3 border border-gray-700 hover:border-gray-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 glow">
+                    <!-- Discount Badge -->
+                    <div class="absolute top-1 left-1 z-10">
+                        <span class="bg-pink-500 text-white px-1.5 py-0.5 rounded text-xs font-bold">-30%</span>
+                    </div>
+                    
+                    <!-- Product Image -->
+                    <div class="h-32 flex items-center justify-center mb-3 cursor-pointer relative">
+                        <img src="https://perfumescolombia.com/wp-content/uploads/2023/09/212-sexy3-1.webp" alt="212 Sexy Carolina Herrera" class="max-h-full transition-transform group-hover:scale-105 object-contain open-modal-btn"
+                             data-id="P005"
+                             data-name="212 Sexy Carolina Herrera"
+                             data-price="99900"
+                             data-desc="Aroma floral y seductor que despierta la sensualidad femenina."
+                             data-notes-out="Notas Florales"
+                             data-notes-heart="Aromas Seductores"
+                             data-notes-base="Base Sensual"
+                             data-image-src="https://perfumescolombia.com/wp-content/uploads/2023/09/212-sexy3-1.webp">
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="space-y-1.5">
+                        <!-- Brand -->
+                        <p class="text-xs text-gray-400">Carolina Herrera</p>
+                        
+                        <!-- Product Name -->
+                        <h3 class="text-sm font-bold text-white cursor-pointer open-modal-btn"
+                            data-id="P005"
+                            data-name="212 Sexy Carolina Herrera"
+                            data-price="99900"
+                            data-desc="Aroma floral y seductor que despierta la sensualidad femenina."
+                            data-notes-out="Notas Florales"
+                            data-notes-heart="Aromas Seductores"
+                            data-notes-base="Base Sensual"
+                            data-image-src="https://perfumescolombia.com/wp-content/uploads/2023/09/212-sexy3-1.webp">212 Sexy EDP 100ml</h3>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center space-x-1">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-400">(18)</span>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold text-amber-400">$99.900</span>
+                            <span class="text-xs text-gray-500 line-through">$142.700</span>
+                        </div>
+                        
+                        <!-- Quantity Selector -->
+                        <div class="flex items-center justify-center space-x-2 py-1">
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="decrease">
+                                <i class="fas fa-minus text-xs text-gray-300"></i>
+                            </button>
+                            <span class="quantity-display text-sm font-semibold min-w-[16px] text-center text-white">1</span>
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="increase">
+                                <i class="fas fa-plus text-xs text-gray-300"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Add to Cart Button -->
+                        <button class="add-to-cart-btn w-full py-2 rounded-lg text-gray-900 font-bold bg-amber-400 hover:bg-amber-300 transition-colors text-sm"
+                                data-id="P005"
+                                data-name="212 Sexy Carolina Herrera"
+                                data-price="99900">
+                            <i class="fas fa-shopping-bag mr-1"></i>Agregar
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Estuche - Set Mini 212 -->
+                <article class="perfume-card group relative bg-gray-900 rounded-xl p-3 border border-gray-700 hover:border-gray-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 glow">
+                    <!-- Discount Badge -->
+                    <div class="absolute top-1 left-1 z-10">
+                        <span class="bg-blue-500 text-white px-1.5 py-0.5 rounded text-xs font-bold">-35%</span>
+                    </div>
+                    
+                    <!-- Product Image -->
+                    <div class="h-32 flex items-center justify-center mb-3 cursor-pointer relative">
+                        <img src="https://perfumescolombia.com/wp-content/uploads/2024/11/Set-Mini-212l.jpg" alt="Set Mini 212 Carolina Herrera" class="max-h-full transition-transform group-hover:scale-105 object-contain open-modal-btn"
+                             data-id="P006"
+                             data-name="Set Mini 212 Carolina Herrera"
+                             data-price="119900"
+                             data-desc="Incluye: 212 Sexy Men (seducción), 212 NYC Men (energía) y 212 Aqua Men (frescura)."
+                             data-notes-out="212 Sexy Men - Seducción y elegancia"
+                             data-notes-heart="212 NYC Men - Energía y dinamismo"
+                             data-notes-base="212 Aqua Men - Frescura y vitalidad"
+                             data-image-src="https://perfumescolombia.com/wp-content/uploads/2024/11/Set-Mini-212l.jpg">
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="space-y-1.5">
+                        <!-- Brand -->
+                        <p class="text-xs text-gray-400">Carolina Herrera</p>
+                        
+                        <!-- Product Name -->
+                        <h3 class="text-sm font-bold text-white cursor-pointer open-modal-btn"
+                            data-id="P006"
+                            data-name="Set Mini 212 Carolina Herrera"
+                            data-price="119900"
+                            data-desc="Incluye: 212 Sexy Men (seducción), 212 NYC Men (energía) y 212 Aqua Men (frescura)."
+                            data-notes-out="212 Sexy Men - Seducción y elegancia"
+                            data-notes-heart="212 NYC Men - Energía y dinamismo"
+                            data-notes-base="212 Aqua Men - Frescura y vitalidad"
+                            data-image-src="https://perfumescolombia.com/wp-content/uploads/2024/11/Set-Mini-212l.jpg">Set Mini 212 EDT 3x30ml</h3>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center space-x-1">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-400">(25)</span>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold text-amber-400">$119.900</span>
+                            <span class="text-xs text-gray-500 line-through">$184.500</span>
+                        </div>
+                        
+                        <!-- Quantity Selector -->
+                        <div class="flex items-center justify-center space-x-2 py-1">
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="decrease">
+                                <i class="fas fa-minus text-xs text-gray-300"></i>
+                            </button>
+                            <span class="quantity-display text-sm font-semibold min-w-[16px] text-center text-white">1</span>
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="increase">
+                                <i class="fas fa-plus text-xs text-gray-300"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Add to Cart Button -->
+                        <button class="add-to-cart-btn w-full py-2 rounded-lg text-gray-900 font-bold bg-amber-400 hover:bg-amber-300 transition-colors text-sm"
+                                data-id="P006"
+                                data-name="Set Mini 212 Carolina Herrera"
+                                data-price="119900">
+                            <i class="fas fa-shopping-bag mr-1"></i>Agregar
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Perfume Árabe - Khamrah -->
+                <article class="perfume-card group relative bg-gray-900 rounded-xl p-3 border border-gray-700 hover:border-gray-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 glow">
+                    <!-- Discount Badge -->
+                    <div class="absolute top-1 left-1 z-10">
+                        <span class="bg-amber-500 text-gray-900 px-1.5 py-0.5 rounded text-xs font-bold">-50%</span>
+                    </div>
+                    
+                    <!-- Product Image -->
+                    <div class="h-32 flex items-center justify-center mb-3 cursor-pointer relative">
+                        <img src="https://perfumescolombia.com/wp-content/uploads/2024/11/Khamrah-perfume-unisex-arabe-lattafa.webp" alt="Khamrah Lattafa" class="max-h-full transition-transform group-hover:scale-105 object-contain open-modal-btn"
+                             data-id="P007"
+                             data-name="Khamrah Lattafa"
+                             data-price="50000"
+                             data-desc="Fragancia unisex árabe con notas de caramelo y canela, diseñada para dejar una huella inolvidable."
+                             data-notes-out="Caramelo, Canela"
+                             data-notes-heart="Notas Aromáticas"
+                             data-notes-base="Especias Orientales"
+                             data-image-src="https://perfumescolombia.com/wp-content/uploads/2024/11/Khamrah-perfume-unisex-arabe-lattafa.webp">
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="space-y-1.5">
+                        <!-- Brand -->
+                        <p class="text-xs text-gray-400">Lattafa</p>
+                        
+                        <!-- Product Name -->
+                        <h3 class="text-sm font-bold text-white cursor-pointer open-modal-btn"
+                            data-id="P007"
+                            data-name="Khamrah Lattafa"
+                            data-price="50000"
+                            data-desc="Fragancia unisex árabe con notas de caramelo y canela, diseñada para dejar una huella inolvidable."
+                            data-notes-out="Caramelo, Canela"
+                            data-notes-heart="Notas Aromáticas"
+                            data-notes-base="Especias Orientales"
+                            data-image-src="https://perfumescolombia.com/wp-content/uploads/2024/11/Khamrah-perfume-unisex-arabe-lattafa.webp">Khamrah EDP 100ml</h3>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center space-x-1">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                                <i class="fas fa-star text-sm"></i>
+                            </div>
+                            <span class="text-xs text-gray-400">(30)</span>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="flex items-center space-x-2">
+                            <span class="text-lg font-bold text-amber-400">$50.000</span>
+                            <span class="text-xs text-gray-500 line-through">$100.000</span>
+                        </div>
+                        
+                        <!-- Quantity Selector -->
+                        <div class="flex items-center justify-center space-x-2 py-1">
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="decrease">
+                                <i class="fas fa-minus text-xs text-gray-300"></i>
+                            </button>
+                            <span class="quantity-display text-sm font-semibold min-w-[16px] text-center text-white">1</span>
+                            <button class="quantity-btn w-6 h-6 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-gray-400 transition-colors" data-action="increase">
+                                <i class="fas fa-plus text-xs text-gray-300"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Add to Cart Button -->
+                        <button class="add-to-cart-btn w-full py-2 rounded-lg text-gray-900 font-bold bg-amber-400 hover:bg-amber-300 transition-colors text-sm"
+                                data-id="P007"
+                                data-name="Khamrah Lattafa"
+                                data-price="50000">
+                            <i class="fas fa-shopping-bag mr-1"></i>Agregar
                         </button>
                     </div>
                 </article>
@@ -164,7 +817,7 @@
                         <div>
                             <h2 id="modalTitle" class="text-3xl font-bold text-white">Producto</h2>
                             <p id="modalDesc" class="mt-2 text-gray-400">Descripción breve.</p>
-                            <ul class="mt-6 text-sm text-gray-400 space-y-1">
+                            <ul class="mt-6 text-xs text-gray-400 space-y-1">
                                 <li><strong class="text-gray-300">Salida:</strong> <span id="noteOut"></span></li>
                                 <li><strong class="text-gray-300">Corazón:</strong> <span id="noteHeart"></span></li>
                                 <li><strong class="text-gray-300">Fondo:</strong> <span id="noteBase"></span></li>
@@ -194,7 +847,7 @@
             </div>
             <div class="p-6 border-t border-gray-700 bg-gray-800">
                 <div class="flex justify-between items-center mb-4"><span class="text-xl font-bold text-white">Total:</span><span id="cart-total" class="text-2xl font-bold text-perfume-accent">$0</span></div>
-                <button id="checkout-btn" class="w-full bg-perfume-accent hover:bg-perfume-accent-dark text-white font-bold py-3 rounded-lg text-lg disabled:bg-gray-600 disabled:cursor-not-allowed" disabled>Finalizar Compra</button>
+                <button id="checkout-btn" class="w-full bg-perfume-accent hover:bg-perfume-accent-dark text-white font-bold py-2 rounded-lg text-lg disabled:bg-gray-600 disabled:cursor-not-allowed" disabled>Finalizar Compra</button>
             </div>
         </div>
 
@@ -214,14 +867,14 @@
                     </div>
                     <h3 class="text-xl font-semibold mb-4 text-white flex items-center"><i class="fas fa-wallet text-perfume-accent mr-3"></i> Método de Pago</h3>
                     <div class="space-y-4">
-                        <div><input type="radio" name="payment" id="pago-efectivo" class="hidden" checked><label for="pago-efectivo" class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-700 transition-all border-gray-600"><i class="fas fa-money-bill-wave text-green-400 text-3xl w-10 mr-4"></i><div><span class="font-medium text-white">Efectivo</span><p class="text-sm text-gray-400">Paga al recibir tu pedido.</p></div></label></div>
-                        <div><input type="radio" name="payment" id="pago-transferencia" class="hidden"><label for="pago-transferencia" class="block p-4 border rounded-lg cursor-pointer hover:bg-gray-700 transition-all border-gray-600"><div class="flex items-center"><i class="fas fa-exchange-alt text-blue-400 text-3xl w-10 mr-4"></i><div><span class="font-medium text-white">Transferencia Bancaria</span><p class="text-sm text-gray-400">Sube tu comprobante de pago.</p></div></div><div id="transfer-details" class="hidden mt-4 pt-4 border-t border-gray-600"><p class="text-sm font-medium">Datos para transferir:</p><p class="text-sm font-mono text-gray-400">Cta. Corriente: 12345678 (Banco XYZ)</p><p class="text-sm font-mono text-gray-400">RUT: 11.111.111-1</p><p class="text-sm mt-2 font-medium">Sube tu comprobante:</p><div class="file-input-wrapper mt-1"><button type="button" class="file-input-button">Seleccionar archivo</button><input type="file" id="comprobante-file" accept="image/*,.pdf"></div><span id="file-name" class="text-sm ml-2 text-gray-500">Ningún archivo...</span></div></label></div>
-                        <div><input type="radio" name="payment" id="pago-mercadopago" class="hidden"><label for="pago-mercadopago" class="block p-4 border rounded-lg cursor-pointer hover:bg-gray-700 transition-all border-gray-600"><div class="flex items-center"><i class="fas fa-credit-card text-cyan-400 text-3xl w-10 mr-4"></i><div><span class="font-medium text-white">Tarjeta (vía MercadoPago)</span><p class="text-sm text-gray-400">Paga de forma segura con tarjetas.</p></div></div></label></div>
+                        <div><input type="radio" name="payment" id="pago-efectivo" class="hidden" checked><label for="pago-efectivo" class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-700 transition-all border-gray-600"><i class="fas fa-money-bill-wave text-green-400 text-3xl w-10 mr-4"></i><div><span class="font-medium text-white">Efectivo</span><p class="text-xs text-gray-400">Paga al recibir tu pedido.</p></div></label></div>
+                        <div><input type="radio" name="payment" id="pago-transferencia" class="hidden"><label for="pago-transferencia" class="block p-4 border rounded-lg cursor-pointer hover:bg-gray-700 transition-all border-gray-600"><div class="flex items-center"><i class="fas fa-exchange-alt text-blue-400 text-3xl w-10 mr-4"></i><div><span class="font-medium text-white">Transferencia Bancaria</span><p class="text-xs text-gray-400">Sube tu comprobante de pago.</p></div></div><div id="transfer-details" class="hidden mt-4 pt-4 border-t border-gray-600"><p class="text-sm font-medium">Datos para transferir:</p><p class="text-sm font-mono text-gray-400">Cta. Corriente: 12345678 (Banco XYZ)</p><p class="text-sm font-mono text-gray-400">RUT: 11.111.111-1</p><p class="text-sm mt-2 font-medium">Sube tu comprobante:</p><div class="file-input-wrapper mt-1"><button type="button" class="file-input-button">Seleccionar archivo</button><input type="file" id="comprobante-file" accept="image/*,.pdf"></div><span id="file-name" class="text-sm ml-2 text-gray-500">Ningún archivo...</span></div></label></div>
+                        <div><input type="radio" name="payment" id="pago-mercadopago" class="hidden"><label for="pago-mercadopago" class="block p-4 border rounded-lg cursor-pointer hover:bg-gray-700 transition-all border-gray-600"><div class="flex items-center"><i class="fas fa-credit-card text-cyan-400 text-3xl w-10 mr-4"></i><div><span class="font-medium text-white">Tarjeta (vía MercadoPago)</span><p class="text-xs text-gray-400">Paga de forma segura con tarjetas.</p></div></div></label></div>
                     </div>
                 </form>
                 <div class="p-6 border-t border-gray-700 bg-gray-900 rounded-b-xl">
                     <div class="flex justify-between items-center mb-4"><span class="text-lg font-medium text-white">Total a Pagar:</span><span id="checkout-total" class="text-3xl font-bold text-perfume-accent">$0</span></div>
-                    <button id="confirm-order-btn" class="w-full bg-perfume-accent hover:bg-perfume-accent-dark text-white font-bold py-3 rounded-lg text-lg flex items-center justify-center space-x-2 transition-transform active:scale-95"><i class="fas fa-check-circle"></i> <span>Confirmar Pedido</span></button>
+                    <button id="confirm-order-btn" class="w-full bg-perfume-accent hover:bg-perfume-accent-dark text-white font-bold py-2 rounded-lg text-lg flex items-center justify-center space-x-2 transition-transform active:scale-95"><i class="fas fa-check-circle"></i> <span>Confirmar Pedido</span></button>
                 </div>
             </div>
         </div>
@@ -231,7 +884,7 @@
                 <div class="w-20 h-20 bg-green-900/50 rounded-full flex items-center justify-center mx-auto border-2 border-perfume-success"><i class="fas fa-check text-perfume-success text-5xl"></i></div>
                 <h2 class="text-3xl font-bold text-white mt-6 mb-3">¡Pedido Confirmado!</h2>
                 <p class="text-lg text-gray-400 mb-8">Gracias por tu compra. Tu pedido será procesado. Se enviará la boleta a tu correo.</p>
-                <button id="close-success-btn" class="w-full bg-perfume-success hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg">Aceptar</button>
+                <button id="close-success-btn" class="w-full bg-perfume-success hover:bg-green-600 text-white font-bold py-2 rounded-lg text-lg">Aceptar</button>
             </div>
         </div>
 
@@ -243,6 +896,7 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             let cart = [];
+            
             
             // --- DOM SELECTORS ---
             // (Selectores como estaban antes...)
@@ -284,8 +938,10 @@
             }
 
             // --- GSAP ANIMATIONS ---
-            gsap.from('.perfume-card', { y: 30, opacity: 0, stagger: 0.15, duration: 0.8, ease: 'power3.out', delay: 0.5, clearProps: "transform,opacity" }); 
             gsap.from('header', { y: -20, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+            gsap.from('.hero-banner', { y: 50, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.3 });
+            gsap.from('.category-card', { y: 30, opacity: 0, stagger: 0.1, duration: 0.6, ease: 'power3.out', delay: 0.4, clearProps: "transform,opacity" });
+            gsap.from('.perfume-card', { y: 30, opacity: 0, stagger: 0.15, duration: 0.8, ease: 'power3.out', delay: 0.5, clearProps: "transform,opacity" });
 
             const overlayTimeline = gsap.timeline({ paused: true })
                 .set(modalOverlay, { display: 'block', pointerEvents: 'auto' })
@@ -302,9 +958,9 @@
                  document.getElementById('modalTitle').innerText = data.name;
                  document.getElementById('modalDesc').innerText = data.desc;
                  document.getElementById('modalPrice').innerText = `$${parseInt(data.price).toLocaleString('es-CL')}`;
-                 document.getElementById('noteOut').innerText = data.notesOut;
-                 document.getElementById('noteHeart').innerText = data.notesHeart;
-                 document.getElementById('noteBase').innerText = data.notesBase;
+                 document.getElementById('noteOut').innerText = data.notesOut || 'Notas de salida';
+                 document.getElementById('noteHeart').innerText = data.notesHeart || 'Notas de corazón';
+                 document.getElementById('noteBase').innerText = data.notesBase || 'Notas de fondo';
                  // Asignar datos al botón DENTRO del modal también
                  modalAddToCartBtn.dataset.id = data.id;
                  modalAddToCartBtn.dataset.name = data.name;
@@ -394,11 +1050,17 @@
                     animateAddToCart(button);
                 }
                 const id = button.dataset.id;
+                
+                // Obtener la cantidad del selector de cantidad
+                const card = button.closest('.perfume-card');
+                const quantityDisplay = card ? card.querySelector('.quantity-display') : null;
+                const quantity = quantityDisplay ? parseInt(quantityDisplay.textContent) : 1;
+                
                 const existingItem = cart.find(item => item.id === id);
                 if (existingItem) {
-                    existingItem.quantity++;
+                    existingItem.quantity += quantity;
                 } else {
-                    cart.push({ id: id, name: button.dataset.name, price: parseInt(button.dataset.price), quantity: 1 });
+                    cart.push({ id: id, name: button.dataset.name, price: parseInt(button.dataset.price), quantity: quantity });
                 }
                 updateCartUI();
                 // Cerrar el modal del producto después de añadir al carrito
@@ -494,7 +1156,7 @@
                     if (selectedPayment === 'pago-mercadopago') {
                         let totalText = cartTotalEl.innerText.replace('$', '').replace(/\./g, '');
                         let total = parseInt(totalText);
-                        window.location.href = `mercadopago.html?total=${total}&origin=perfumeria`; 
+                        window.location.href = `mercadopago.html?total=${total}&origin=perfumeriasanrafael`; 
 
                     } else {
                         closeCheckout();
@@ -527,6 +1189,13 @@
             }));
             // El botón DENTRO del modal ahora es el único que añade al carrito
             if (modalAddToCartBtn) modalAddToCartBtn.addEventListener('click', addToCart);
+            
+            // Event listeners para todos los botones de agregar al carrito
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('.add-to-cart-btn')) {
+                    addToCart(e);
+                }
+            });
             // **** FIN CORRECCIÓN ****
 
             if (closeProductModalBtn) closeProductModalBtn.addEventListener('click', closeProductModal);
@@ -548,6 +1217,172 @@
                 if (e.target === mobileMenu) closeMobileMenu();
             });
 
+            // Close mobile menu when clicking on navigation links
+            const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            // Carousel functionality
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.carousel-slide');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            const prevBtn = document.querySelector('.carousel-prev');
+            const nextBtn = document.querySelector('.carousel-next');
+            let carouselInterval;
+
+            function showSlide(index) {
+                // Remove active class from all slides and indicators
+                slides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+                
+                // Add active class to current slide and indicator
+                if (slides[index]) slides[index].classList.add('active');
+                if (indicators[index]) indicators[index].classList.add('active');
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function startCarousel() {
+                carouselInterval = setInterval(nextSlide, 4000); // Change every 4 seconds
+            }
+
+            function stopCarousel() {
+                clearInterval(carouselInterval);
+            }
+
+            // Initialize carousel
+            if (slides.length > 0) {
+                showSlide(0);
+                startCarousel();
+
+                // Event listeners for navigation
+                if (nextBtn) nextBtn.addEventListener('click', () => {
+                    stopCarousel();
+                    nextSlide();
+                    startCarousel();
+                });
+
+                if (prevBtn) prevBtn.addEventListener('click', () => {
+                    stopCarousel();
+                    prevSlide();
+                    startCarousel();
+                });
+
+                // Event listeners for indicators
+                indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => {
+                        stopCarousel();
+                        currentSlide = index;
+                        showSlide(currentSlide);
+                        startCarousel();
+                    });
+                });
+
+                // Pause on hover
+                const carouselContainer = document.querySelector('.carousel-container');
+                if (carouselContainer) {
+                    carouselContainer.addEventListener('mouseenter', stopCarousel);
+                    carouselContainer.addEventListener('mouseleave', startCarousel);
+                }
+            }
+
+            // Banner button functionality
+            const exploreCollectionBtn = document.getElementById('explore-collection-btn');
+            const viewProductsBtn = document.getElementById('view-products-btn');
+            
+            if (exploreCollectionBtn) {
+                exploreCollectionBtn.addEventListener('click', () => {
+                    // Scroll to products section
+                    document.querySelector('.perfume-grid').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Add a subtle animation to the first product card
+                    gsap.fromTo('.perfume-card:first-child', 
+                        { scale: 1 }, 
+                        { scale: 1.05, duration: 0.3, yoyo: true, repeat: 1, ease: "power2.out" }
+                    );
+                });
+            }
+            
+            if (viewProductsBtn) {
+                viewProductsBtn.addEventListener('click', () => {
+                    // Scroll to products section with smooth animation
+                    document.querySelector('.perfume-grid').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Highlight all product cards
+                    gsap.fromTo('.perfume-card', 
+                        { scale: 1 }, 
+                        { scale: 1.02, duration: 0.2, stagger: 0.1, yoyo: true, repeat: 1, ease: "power2.out" }
+                    );
+                });
+            }
+
+            // Category functionality
+            const categoryCards = document.querySelectorAll('.category-card');
+            const categoryLinks = document.querySelectorAll('.category-link');
+            
+            // Category click handlers
+            categoryCards.forEach((card, index) => {
+                card.addEventListener('click', () => {
+                    const categoryPages = [
+                        'perfumes-mujer.html',
+                        'perfumes-hombre.html', 
+                        'estuches.html',
+                        'perfumes-arabes.html'
+                    ];
+                    
+                    const categoryNames = [
+                        'Perfumes de Mujer',
+                        'Perfumes de Hombre', 
+                        'Estuches',
+                        'Perfumes Árabes'
+                    ];
+                    
+                    const message = `Navegando a: ${categoryNames[index]}`;
+                    
+                    // Create a temporary notification
+                    const notification = document.createElement('div');
+                    notification.className = 'fixed top-4 right-4 bg-perfume-accent text-white px-6 py-2 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300';
+                    notification.innerHTML = `
+                        <div class="flex items-center">
+                            <i class="fas fa-arrow-right mr-2"></i>
+                            ${message}
+                        </div>
+                    `;
+                    document.body.appendChild(notification);
+                    
+                    // Animate in
+                    setTimeout(() => {
+                        notification.classList.remove('translate-x-full');
+                    }, 100);
+                    
+                    // Navigate to category page after a short delay
+                    setTimeout(() => {
+                        window.location.href = categoryPages[index];
+                    }, 800);
+                });
+            });
+            
+            // Prevent default link behavior
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+            });
+
             if (modalOverlay) modalOverlay.addEventListener('click', () => {
                 if (productModalTimeline.isActive() || cartTimeline.isActive() || checkoutTimeline.isActive() || successTimeline.isActive()) return;
 
@@ -562,8 +1397,141 @@
             });
 
 
+            // Quantity selector functionality
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('.quantity-btn')) {
+                    const button = e.target.closest('.quantity-btn');
+                    const action = button.getAttribute('data-action');
+                    const quantityDisplay = button.parentElement.querySelector('.quantity-display');
+                    let currentQuantity = parseInt(quantityDisplay.textContent);
+                    
+                    if (action === 'increase') {
+                        currentQuantity++;
+                    } else if (action === 'decrease' && currentQuantity > 1) {
+                        currentQuantity--;
+                    }
+                    
+                    quantityDisplay.textContent = currentQuantity;
+                }
+            });
+
             updateCartUI(); // Initial cart render
         });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        const searchResults = document.getElementById('searchResults');
+        const searchResultsList = document.getElementById('searchResultsList');
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            
+            if (query.length > 0) {
+                clearSearch.classList.remove('hidden');
+                searchResults.classList.remove('hidden');
+                
+                // Get all product cards
+                const productCards = document.querySelectorAll('.perfume-card');
+                const matches = [];
+                
+                productCards.forEach(card => {
+                    const productName = card.querySelector('h3').textContent.toLowerCase();
+                    const brand = card.querySelector('p').textContent.toLowerCase();
+                    const price = card.querySelector('.text-amber-400').textContent.toLowerCase();
+                    
+                    if (productName.includes(query) || brand.includes(query) || price.includes(query)) {
+                        matches.push({
+                            name: card.querySelector('h3').textContent,
+                            brand: card.querySelector('p').textContent,
+                            price: card.querySelector('.text-amber-400').textContent,
+                            element: card
+                        });
+                    }
+                });
+                
+                // Display results
+                if (matches.length > 0) {
+                    searchResultsList.innerHTML = matches.map(match => `
+                        <div class="flex items-center justify-between p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors cursor-pointer" onclick="match.element.scrollIntoView({behavior: 'smooth', block: 'center'})">
+                            <div>
+                                <p class="text-white font-semibold">${match.name}</p>
+                                <p class="text-gray-400 text-sm">${match.brand}</p>
+                            </div>
+                            <span class="text-amber-400 font-bold">${match.price}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    searchResultsList.innerHTML = '<p class="text-gray-400 text-center py-4">No se encontraron resultados</p>';
+                }
+            } else {
+                clearSearch.classList.add('hidden');
+                searchResults.classList.add('hidden');
+            }
+        });
+
+        clearSearch.addEventListener('click', function() {
+            searchInput.value = '';
+            clearSearch.classList.add('hidden');
+            searchResults.classList.add('hidden');
+        });
     </script>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-700 mt-16">
+        <div class="max-w-6xl mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="md:col-span-2">
+                    <h3 class="text-xl font-bold text-white mb-4">La Económica San Rafael</h3>
+                    <p class="text-gray-400 text-sm mb-4">Tu tienda de confianza para los mejores perfumes y fragancias. Calidad, precio y servicio excepcional.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-amber-400 transition-colors">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-amber-400 transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-amber-400 transition-colors">
+                            <i class="fab fa-whatsapp text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Enlaces Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Inicio</a></li>
+                        <li><a href="perfumeriasanrafael.html" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Perfumería</a></li>
+                        <li><a href="farmacia.html" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Farmacia</a></li>
+                        <li><a href="quienes-somos.html" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Quiénes Somos</a></li>
+                    </ul>
+                </div>
+
+                <!-- Categories -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Categorías</h4>
+                    <ul class="space-y-2">
+                        <li><a href="perfumes-mujer.html" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Perfumes Mujer</a></li>
+                        <li><a href="perfumes-hombre.html" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Perfumes Hombre</a></li>
+                        <li><a href="estuches.html" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Estuches</a></li>
+                        <li><a href="perfumes-arabes.html" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Perfumes Árabes</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">© 2024 La Económica San Rafael. Todos los derechos reservados.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Política de Privacidad</a>
+                        <a href="#" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Términos y Condiciones</a>
+                        <a href="#" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

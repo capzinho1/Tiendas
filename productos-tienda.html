@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Distribuidora la Económica - San Rafael</title>
-    <meta name="description" content="Distribuidora la Económica - La mejor de San Rafael. Productos mayoristas y distribución.">
+    <title>Productos - Distribuidora la Económica</title>
     
     <!-- External Libraries -->
+    <!-- Note: Using Tailwind CDN for development. For production, install as PostCSS plugin -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -46,22 +46,24 @@
             opacity: 0.8;
         }
         
-        .brand-logo:hover {
-            filter: grayscale(0%) brightness(1);
-            opacity: 1;
-        }
-        
         .floating-whatsapp {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 1000;
         }
+        
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
-
 <body class="bg-gray-50">
-
     <!-- Main Navigation -->
     <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4">
@@ -79,9 +81,10 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="productos-tienda.html" class="text-e-rojo hover:text-e-rojo-dark font-semibold transition-colors">Productos</a>
-                    <a href="#nosotros" class="text-e-rojo hover:text-e-rojo-dark font-semibold transition-colors">Nosotros</a>
-                    <a href="#contacto" class="text-e-rojo hover:text-e-rojo-dark font-semibold transition-colors">Contacto</a>
+                    <a href="distribuidoralaeconomica.html" class="text-e-rojo hover:text-e-rojo-dark font-semibold transition-colors">Inicio</a>
+                    <a href="#productos" class="text-e-rojo hover:text-e-rojo-dark font-semibold transition-colors">Productos</a>
+                    <a href="distribuidoralaeconomica.html#nosotros" class="text-e-rojo hover:text-e-rojo-dark font-semibold transition-colors">Nosotros</a>
+                    <a href="distribuidoralaeconomica.html#contacto" class="text-e-rojo hover:text-e-rojo-dark font-semibold transition-colors">Contacto</a>
                 </div>
 
                 <!-- Search Bar and Cart -->
@@ -115,187 +118,207 @@
         </div>
         <div class="flex flex-col items-center justify-center h-full space-y-8">
             <a href="index.html" class="text-white text-2xl font-semibold hover:text-e-amarillo transition-colors mobile-menu-link">🏠 Página Principal</a>
-            <a href="#inicio" class="text-white text-2xl font-semibold hover:text-e-amarillo transition-colors mobile-menu-link">Inicio</a>
-            <a href="productos-tienda.html" class="text-white text-2xl font-semibold hover:text-e-amarillo transition-colors mobile-menu-link">Productos</a>
-            <a href="#nosotros" class="text-white text-2xl font-semibold hover:text-e-amarillo transition-colors mobile-menu-link">Quiénes Somos</a>
+            <a href="distribuidoralaeconomica.html" class="text-white text-2xl font-semibold hover:text-e-amarillo transition-colors mobile-menu-link">Inicio</a>
+            <a href="#productos" class="text-white text-2xl font-semibold hover:text-e-amarillo transition-colors mobile-menu-link">Productos</a>
+            <a href="distribuidoralaeconomica.html#nosotros" class="text-white text-2xl font-semibold hover:text-e-amarillo transition-colors mobile-menu-link">Quiénes Somos</a>
         </div>
     </div>
 
     <!-- Hero Section -->
-    <section id="inicio" class="hero-gradient text-white py-16">
+    <section class="hero-gradient text-white py-16">
         <div class="container mx-auto px-4">
             <div class="text-center">
-                <h2 class="text-5xl md:text-6xl font-bold mb-6">Distribuidora la Económica</h2>
-                <p class="text-xl mb-8 text-red-100">Productos de calidad al mejor precio en San Rafael</p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="productos-tienda.html" class="bg-e-amarillo text-e-rojo-dark px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-400 transition-colors transform hover:scale-105 shadow-lg">
-                        <i class="fas fa-box mr-2"></i>Ver Productos
-                    </a>
-                    <a href="#contacto" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-e-rojo transition-colors transform hover:scale-105">
-                        <i class="fas fa-phone mr-2"></i>Contactar
-                    </a>
+                <h2 class="text-5xl md:text-6xl font-bold mb-6">Nuestros Productos</h2>
+                <p class="text-xl mb-8 text-red-100">Descubre nuestra amplia gama de productos de calidad</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="py-8 bg-white border-b">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                <!-- Search Bar -->
+                <div class="relative w-full md:w-96">
+                    <input type="text" id="searchInput" placeholder="Buscar productos..." 
+                           class="w-full px-4 py-2 pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-e-rojo focus:border-transparent">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                
+                <!-- Category Filter -->
+                <div class="flex flex-wrap gap-2">
+                    <button class="category-filter bg-e-rojo text-white px-4 py-2 rounded-lg text-sm hover:bg-e-rojo-dark transition-colors" data-category="all">
+                        Todos
+                    </button>
+                    <button class="category-filter bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors" data-category="hogar">
+                        Hogar
+                    </button>
+                    <button class="category-filter bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors" data-category="limpieza">
+                        Limpieza
+                    </button>
+                    <button class="category-filter bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors" data-category="alimentacion">
+                        Alimentación
+                    </button>
+                    <button class="category-filter bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors" data-category="bebidas">
+                        Bebidas
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Featured Products Section -->
-    <section id="productos" class="py-16 bg-white">
+    <!-- Products Section -->
+    <section id="productos" class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-e-rojo mb-8 text-center">Productos Destacados</h2>
-            <p class="text-center text-gray-600 mb-8">Una muestra de nuestros productos. <a href="productos-tienda.html" class="text-e-rojo hover:text-e-rojo-dark font-semibold">Ver todos los productos →</a></p>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 <!-- Product Cards -->
-                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
-                    <div class="h-32 rounded-lg mb-3 overflow-hidden">
-                        <img src="img/image.png" alt="Producto 1" class="w-full h-full object-cover">
+                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow" data-category="hogar">
+                    <div class="h-40 rounded-lg mb-3 overflow-hidden">
+                        <img src="../img/image.png" alt="Producto 1" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="font-semibold text-sm text-gray-800">Producto 1</h3>
-                    <p class="text-xs text-gray-600">Descripción breve del producto</p>
+                    <h3 class="font-semibold text-sm text-gray-800">Producto Hogar 1</h3>
+                    <p class="text-xs text-gray-600">Descripción del producto</p>
                     <div class="flex items-center justify-between mt-2">
                         <div class="text-e-rojo font-bold text-sm">$1.500</div>
                         <button class="add-to-cart-btn bg-e-rojo text-white px-3 py-1 rounded text-xs hover:bg-e-rojo-dark transition-colors" 
-                                data-id="D001" data-name="Producto 1" data-price="1500">
+                                data-id="P001" data-name="Producto Hogar 1" data-price="1500">
                             <i class="fas fa-plus mr-1"></i>Agregar
                         </button>
                     </div>
                 </div>
 
-                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
-                    <div class="h-32 rounded-lg mb-3 overflow-hidden">
-                        <img src="img/image 2.png" alt="Producto 2" class="w-full h-full object-cover">
+                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow" data-category="limpieza">
+                    <div class="h-40 rounded-lg mb-3 overflow-hidden">
+                        <img src="../img/image 2.png" alt="Producto 2" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="font-semibold text-sm text-gray-800">Producto 2</h3>
-                    <p class="text-xs text-gray-600">Descripción breve del producto</p>
+                    <h3 class="font-semibold text-sm text-gray-800">Producto Limpieza 1</h3>
+                    <p class="text-xs text-gray-600">Descripción del producto</p>
                     <div class="flex items-center justify-between mt-2">
                         <div class="text-e-rojo font-bold text-sm">$2.300</div>
                         <button class="add-to-cart-btn bg-e-rojo text-white px-3 py-1 rounded text-xs hover:bg-e-rojo-dark transition-colors" 
-                                data-id="D002" data-name="Producto 2" data-price="2300">
+                                data-id="P002" data-name="Producto Limpieza 1" data-price="2300">
                             <i class="fas fa-plus mr-1"></i>Agregar
                         </button>
                     </div>
                 </div>
 
-                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
-                    <div class="h-32 rounded-lg mb-3 overflow-hidden">
-                        <img src="img/perfume mujer.png" alt="Producto 3" class="w-full h-full object-cover">
+                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow" data-category="alimentacion">
+                    <div class="h-40 rounded-lg mb-3 overflow-hidden">
+                        <img src="../img/perfume mujer.png" alt="Producto 3" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="font-semibold text-sm text-gray-800">Producto 3</h3>
-                    <p class="text-xs text-gray-600">Descripción breve del producto</p>
+                    <h3 class="font-semibold text-sm text-gray-800">Producto Alimentación 1</h3>
+                    <p class="text-xs text-gray-600">Descripción del producto</p>
                     <div class="flex items-center justify-between mt-2">
                         <div class="text-e-rojo font-bold text-sm">$3.100</div>
                         <button class="add-to-cart-btn bg-e-rojo text-white px-3 py-1 rounded text-xs hover:bg-e-rojo-dark transition-colors" 
-                                data-id="D003" data-name="Producto 3" data-price="3100">
+                                data-id="P003" data-name="Producto Alimentación 1" data-price="3100">
                             <i class="fas fa-plus mr-1"></i>Agregar
                         </button>
                     </div>
                 </div>
 
-                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
-                    <div class="h-32 rounded-lg mb-3 overflow-hidden">
-                        <img src="img/perrfume hombre.png" alt="Producto 4" class="w-full h-full object-cover">
+                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow" data-category="bebidas">
+                    <div class="h-40 rounded-lg mb-3 overflow-hidden">
+                        <img src="../img/perrfume hombre.png" alt="Producto 4" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="font-semibold text-sm text-gray-800">Producto 4</h3>
-                    <p class="text-xs text-gray-600">Descripción breve del producto</p>
+                    <h3 class="font-semibold text-sm text-gray-800">Producto Bebidas 1</h3>
+                    <p class="text-xs text-gray-600">Descripción del producto</p>
                     <div class="flex items-center justify-between mt-2">
                         <div class="text-e-rojo font-bold text-sm">$1.800</div>
                         <button class="add-to-cart-btn bg-e-rojo text-white px-3 py-1 rounded text-xs hover:bg-e-rojo-dark transition-colors" 
-                                data-id="D004" data-name="Producto 4" data-price="1800">
+                                data-id="P004" data-name="Producto Bebidas 1" data-price="1800">
                             <i class="fas fa-plus mr-1"></i>Agregar
                         </button>
                     </div>
                 </div>
 
-                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
-                    <div class="h-32 rounded-lg mb-3 overflow-hidden">
-                        <img src="img/perfume arabe.png" alt="Producto 5" class="w-full h-full object-cover">
+                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow" data-category="hogar">
+                    <div class="h-40 rounded-lg mb-3 overflow-hidden">
+                        <img src="../img/perfume arabe.png" alt="Producto 5" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="font-semibold text-sm text-gray-800">Producto 5</h3>
-                    <p class="text-xs text-gray-600">Descripción breve del producto</p>
+                    <h3 class="font-semibold text-sm text-gray-800">Producto Hogar 2</h3>
+                    <p class="text-xs text-gray-600">Descripción del producto</p>
                     <div class="flex items-center justify-between mt-2">
                         <div class="text-e-rojo font-bold text-sm">$2.700</div>
                         <button class="add-to-cart-btn bg-e-rojo text-white px-3 py-1 rounded text-xs hover:bg-e-rojo-dark transition-colors" 
-                                data-id="D005" data-name="Producto 5" data-price="2700">
+                                data-id="P005" data-name="Producto Hogar 2" data-price="2700">
                             <i class="fas fa-plus mr-1"></i>Agregar
                         </button>
                     </div>
                 </div>
 
-                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
-                    <div class="h-32 rounded-lg mb-3 overflow-hidden">
-                        <img src="img/image.png" alt="Producto 6" class="w-full h-full object-cover">
+                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow" data-category="limpieza">
+                    <div class="h-40 rounded-lg mb-3 overflow-hidden">
+                        <img src="../img/image.png" alt="Producto 6" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="font-semibold text-sm text-gray-800">Producto 6</h3>
-                    <p class="text-xs text-gray-600">Descripción breve del producto</p>
+                    <h3 class="font-semibold text-sm text-gray-800">Producto Limpieza 2</h3>
+                    <p class="text-xs text-gray-600">Descripción del producto</p>
                     <div class="flex items-center justify-between mt-2">
                         <div class="text-e-rojo font-bold text-sm">$1.200</div>
                         <button class="add-to-cart-btn bg-e-rojo text-white px-3 py-1 rounded text-xs hover:bg-e-rojo-dark transition-colors" 
-                                data-id="D006" data-name="Producto 6" data-price="1200">
+                                data-id="P006" data-name="Producto Limpieza 2" data-price="1200">
                             <i class="fas fa-plus mr-1"></i>Agregar
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- About Section -->
-    <section id="nosotros" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl font-bold text-e-rojo mb-8">Sobre Nosotros</h2>
-                <p class="text-lg text-gray-700 leading-relaxed mb-8">
-                    Somos una distribuidora líder en San Rafael, comprometida con brindar productos de calidad 
-                    al mejor precio. Con años de experiencia en el mercado, nos especializamos en la distribución 
-                    de productos de las mejores marcas nacionales e internacionales.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="text-center">
-                        <div class="bg-e-rojo text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-truck text-2xl"></i>
-                        </div>
-                        <h3 class="font-bold text-e-rojo mb-2">Distribución Rápida</h3>
-                        <p class="text-gray-600 text-sm">Entregas rápidas y confiables en toda la región</p>
+                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow" data-category="alimentacion">
+                    <div class="h-40 rounded-lg mb-3 overflow-hidden">
+                        <img src="../img/image 2.png" alt="Producto 7" class="w-full h-full object-cover">
                     </div>
-                    <div class="text-center">
-                        <div class="bg-e-rojo text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-star text-2xl"></i>
-                        </div>
-                        <h3 class="font-bold text-e-rojo mb-2">Calidad Garantizada</h3>
-                        <p class="text-gray-600 text-sm">Productos de las mejores marcas del mercado</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="bg-e-rojo text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-handshake text-2xl"></i>
-                        </div>
-                        <h3 class="font-bold text-e-rojo mb-2">Atención Personalizada</h3>
-                        <p class="text-gray-600 text-sm">Servicio al cliente de excelencia</p>
+                    <h3 class="font-semibold text-sm text-gray-800">Producto Alimentación 2</h3>
+                    <p class="text-xs text-gray-600">Descripción del producto</p>
+                    <div class="flex items-center justify-between mt-2">
+                        <div class="text-e-rojo font-bold text-sm">$2.500</div>
+                        <button class="add-to-cart-btn bg-e-rojo text-white px-3 py-1 rounded text-xs hover:bg-e-rojo-dark transition-colors" 
+                                data-id="P007" data-name="Producto Alimentación 2" data-price="2500">
+                            <i class="fas fa-plus mr-1"></i>Agregar
+                        </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contacto" class="py-16 bg-e-rojo text-white">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl font-bold mb-8">Contáctanos</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="text-center">
-                        <i class="fas fa-phone text-3xl mb-4"></i>
-                        <h3 class="font-bold mb-2">Teléfono</h3>
-                        <p>+56 9 1234 5678</p>
+                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow" data-category="bebidas">
+                    <div class="h-40 rounded-lg mb-3 overflow-hidden">
+                        <img src="../img/perfume mujer.png" alt="Producto 8" class="w-full h-full object-cover">
                     </div>
-                    <div class="text-center">
-                        <i class="fas fa-envelope text-3xl mb-4"></i>
-                        <h3 class="font-bold mb-2">Email</h3>
-                        <p>contacto@laeconomica.cl</p>
+                    <h3 class="font-semibold text-sm text-gray-800">Producto Bebidas 2</h3>
+                    <p class="text-xs text-gray-600">Descripción del producto</p>
+                    <div class="flex items-center justify-between mt-2">
+                        <div class="text-e-rojo font-bold text-sm">$3.500</div>
+                        <button class="add-to-cart-btn bg-e-rojo text-white px-3 py-1 rounded text-xs hover:bg-e-rojo-dark transition-colors" 
+                                data-id="P008" data-name="Producto Bebidas 2" data-price="3500">
+                            <i class="fas fa-plus mr-1"></i>Agregar
+                        </button>
                     </div>
-                    <div class="text-center">
-                        <i class="fas fa-map-marker-alt text-3xl mb-4"></i>
-                        <h3 class="font-bold mb-2">Ubicación</h3>
-                        <p>San Rafael, Región del Maule</p>
+                </div>
+
+                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow" data-category="hogar">
+                    <div class="h-40 rounded-lg mb-3 overflow-hidden">
+                        <img src="../img/perrfume hombre.png" alt="Producto 9" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-semibold text-sm text-gray-800">Producto Hogar 3</h3>
+                    <p class="text-xs text-gray-600">Descripción del producto</p>
+                    <div class="flex items-center justify-between mt-2">
+                        <div class="text-e-rojo font-bold text-sm">$4.200</div>
+                        <button class="add-to-cart-btn bg-e-rojo text-white px-3 py-1 rounded text-xs hover:bg-e-rojo-dark transition-colors" 
+                                data-id="P009" data-name="Producto Hogar 3" data-price="4200">
+                            <i class="fas fa-plus mr-1"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow" data-category="limpieza">
+                    <div class="h-40 rounded-lg mb-3 overflow-hidden">
+                        <img src="../img/perfume arabe.png" alt="Producto 10" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-semibold text-sm text-gray-800">Producto Limpieza 3</h3>
+                    <p class="text-xs text-gray-600">Descripción del producto</p>
+                    <div class="flex items-center justify-between mt-2">
+                        <div class="text-e-rojo font-bold text-sm">$1.800</div>
+                        <button class="add-to-cart-btn bg-e-rojo text-white px-3 py-1 rounded text-xs hover:bg-e-rojo-dark transition-colors" 
+                                data-id="P010" data-name="Producto Limpieza 3" data-price="1800">
+                            <i class="fas fa-plus mr-1"></i>Agregar
+                        </button>
                     </div>
                 </div>
             </div>
@@ -512,15 +535,16 @@
         const successModal = document.getElementById('success-modal');
         const successModalBox = document.getElementById('success-modal-box');
         const closeSuccessBtn = document.getElementById('close-success-btn');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilters = document.querySelectorAll('.category-filter');
 
-        // Add to cart function
-        function addToCart(e) {
-            const button = e.target.closest('.add-to-cart-btn');
-            if (!button) return;
-            
+        // Add to cart function - Simplified
+        function addToCart(button) {
             const id = button.dataset.id;
             const name = button.dataset.name;
             const price = parseInt(button.dataset.price);
+            
+            console.log('Adding to cart:', { id, name, price });
             
             const existingItem = cart.find(item => item.id === id);
             if (existingItem) {
@@ -530,16 +554,22 @@
             }
             
             updateCartUI();
-            
-            // Animation
-            gsap.fromTo(button, { scale: 1 }, { scale: 1.2, duration: 0.2, yoyo: true, repeat: 1, ease: "elastic.out(1, 0.3)" });
         }
 
         // Update cart UI
         function updateCartUI() {
+            console.log('updateCartUI called, cart:', cart);
+            
             // Update cart count
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCount.textContent = totalItems;
+            console.log('Total items:', totalItems);
+            
+            if (cartCount) {
+                cartCount.textContent = totalItems;
+                console.log('Cart count updated to:', cartCount.textContent);
+            } else {
+                console.error('cartCount element not found');
+            }
             
             // Update cart items
             if (cart.length === 0) {
@@ -614,9 +644,15 @@
         }
 
         function closeCheckout() {
-            gsap.to(checkoutBox, { scale: 0.9, opacity: 0, duration: 0.3, ease: "power2.in", onComplete: function() {
-                checkoutModal.classList.add('hidden');
-            }});
+            gsap.to(checkoutBox, { 
+                scale: 0.9, 
+                opacity: 0, 
+                duration: 0.3, 
+                ease: "power2.in", 
+                onComplete: function() {
+                    checkoutModal.classList.add('hidden');
+                }
+            });
         }
 
         function openSuccessModal() {
@@ -625,13 +661,56 @@
         }
 
         function closeSuccessModal() {
-            gsap.to(successModalBox, { scale: 0.9, opacity: 0, duration: 0.3, ease: "power2.in", onComplete: function() {
-                successModal.classList.add('hidden');
-            }});
+            gsap.to(successModalBox, { 
+                scale: 0.9, 
+                opacity: 0, 
+                duration: 0.3, 
+                ease: "power2.in", 
+                onComplete: function() {
+                    successModal.classList.add('hidden');
+                }
+            });
+        }
+
+        // Search functionality
+        function filterProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                const productName = card.querySelector('h3').textContent.toLowerCase();
+                const productDesc = card.querySelector('p').textContent.toLowerCase();
+                const matchesSearch = productName.includes(searchTerm) || productDesc.includes(searchTerm);
+                
+                if (matchesSearch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Category filter functionality
+        function filterByCategory(category) {
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
         // Event listeners
         document.addEventListener('DOMContentLoaded', () => {
+            // Debug: Check if elements exist
+            console.log('openCartBtn:', openCartBtn);
+            console.log('cartModal:', cartModal);
+            console.log('categoryFilters:', categoryFilters);
+            console.log('add-to-cart buttons:', document.querySelectorAll('.add-to-cart-btn'));
+            
             // Check for payment success
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('payment') === 'success') {
@@ -649,8 +728,8 @@
                 gsap.fromTo(successMessage, { x: 300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power2.out" });
                 
                 // Remove success message after 5 seconds
-                setTimeout(() => {
-                    gsap.to(successMessage, { x: 300, opacity: 0, duration: 0.5, ease: "power2.in", onComplete: () => {
+                setTimeout(function() {
+                    gsap.to(successMessage, { x: 300, opacity: 0, duration: 0.5, ease: "power2.in", onComplete: function() {
                         document.body.removeChild(successMessage);
                     }});
                 }, 5000);
@@ -662,25 +741,52 @@
             // Animations
             gsap.from("nav", { duration: 0.8, y: -50, opacity: 0, ease: "power2.out" });
             gsap.from(".hero-gradient", { duration: 1, opacity: 0, y: 50, delay: 0.2, ease: "power3.out" });
-            gsap.from(".grid > div", { duration: 0.6, y: 30, opacity: 0, stagger: 0.1, delay: 0.8, ease: "power2.out" });
+            gsap.from(".product-card", { duration: 0.6, y: 30, opacity: 0, stagger: 0.1, delay: 0.8, ease: "power2.out" });
             
-            // Cart event listeners
-            document.addEventListener('click', (e) => {
+            // Add to cart event listeners - Simplified approach
+            document.addEventListener('click', function(e) {
                 if (e.target.closest('.add-to-cart-btn')) {
-                    addToCart(e);
+                    console.log('Add to cart button clicked');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const button = e.target.closest('.add-to-cart-btn');
+                    addToCart(button);
+                    
+                    // Animation
+                    gsap.fromTo(button, { scale: 1 }, { scale: 1.2, duration: 0.2, yoyo: true, repeat: 1, ease: "elastic.out(1, 0.3)" });
                 }
             });
             
-            if (openCartBtn) openCartBtn.addEventListener('click', () => {
-                cartModal.classList.remove('hidden');
-                gsap.from(cartModal, { duration: 0.3, opacity: 0, scale: 0.9, ease: "power2.out" });
-            });
+            // Open cart button
+            if (openCartBtn) {
+                openCartBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    console.log('Open cart clicked');
+                    cartModal.classList.remove('hidden');
+                    gsap.from(cartModal, { duration: 0.3, opacity: 0, scale: 0.9, ease: "power2.out" });
+                });
+            } else {
+                console.error('openCartBtn not found');
+            }
             
-            if (closeCartBtn) closeCartBtn.addEventListener('click', () => {
-                cartModal.classList.add('hidden');
-            });
+            // Close cart button
+            if (closeCartBtn) {
+                closeCartBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    console.log('Close cart clicked');
+                    cartModal.classList.add('hidden');
+                });
+            } else {
+                console.error('closeCartBtn not found');
+            }
             
-            if (cartItems) cartItems.addEventListener('click', handleCartClick);
+            // Cart items click handler
+            if (cartItems) {
+                cartItems.addEventListener('click', handleCartClick);
+            } else {
+                console.error('cartItems not found');
+            }
             
             if (checkoutBtn) checkoutBtn.addEventListener('click', openCheckout);
             if (closeCheckoutBtn) closeCheckoutBtn.addEventListener('click', closeCheckout);
@@ -732,7 +838,7 @@
                     if (selectedPayment === 'pago-mercadopago') {
                         let totalText = cartTotal.textContent.replace('$', '').replace(/\./g, '');
                         let total = parseInt(totalText);
-                        window.location.href = `mercadopago.html?total=${total}&origin=distribuidora`;
+                        window.location.href = `mercadopago.html?total=${total}&origin=productos`;
                     } else {
                         closeCheckout();
                         setTimeout(() => { openSuccessModal(); }, 300);
@@ -752,6 +858,44 @@
             checkoutModal.addEventListener('click', (e) => {
                 if (e.target === checkoutModal) {
                     closeCheckout();
+                }
+            });
+            
+            // Search functionality
+            if (searchInput) {
+                searchInput.addEventListener('input', filterProducts);
+            }
+            
+            // Category filter functionality - Simplified
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.category-filter')) {
+                    console.log('Category filter clicked');
+                    e.preventDefault();
+                    
+                    const filter = e.target.closest('.category-filter');
+                    const category = filter.dataset.category;
+                    
+                    console.log('Filtering by category:', category);
+                    
+                    // Update active filter
+                    categoryFilters.forEach(f => {
+                        f.classList.remove('bg-e-rojo', 'text-white');
+                        f.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    filter.classList.remove('bg-gray-200', 'text-gray-700');
+                    filter.classList.add('bg-e-rojo', 'text-white');
+                    
+                    // Filter products
+                    const productCards = document.querySelectorAll('.product-card');
+                    productCards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'block';
+                            card.style.visibility = 'visible';
+                        } else {
+                            card.style.display = 'none';
+                            card.style.visibility = 'hidden';
+                        }
+                    });
                 }
             });
             

@@ -121,14 +121,16 @@
 
                 // 4. Simular 3 segundos de procesamiento de pago
                 setTimeout(() => {
-                    // 5. Redirigir de vuelta a la página de origen con el parámetro de éxito
-                    let redirectUrl = 'distribuidoralaeconomica.html?payment=success';
-                    if (origin === 'farmacia') {
-                        redirectUrl = 'farmacia.html?payment=success';
-                    } else if (origin === 'perfumeria') {
-                        redirectUrl = 'perfumeriasanrafael.html?payment=success';
-                    }
-                    window.location.href = redirectUrl;
+                // 5. Redirigir de vuelta a la página de origen con el parámetro de éxito
+                let redirectUrl = 'distribuidoralaeconomica.html?payment=success';
+                if (origin === 'farmacia') {
+                    redirectUrl = 'farmacia.html?payment=success';
+                } else if (origin === 'perfumeriasanrafael') {
+                    redirectUrl = 'perfumeriasanrafael.html?payment=success';
+                } else if (origin === 'productos') {
+                    redirectUrl = 'productos-tienda.html?payment=success';
+                }
+                window.location.href = redirectUrl;
                 }, 3000); // 3 segundos
             });
         });

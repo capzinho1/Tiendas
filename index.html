@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiénes Somos - Distribuidora la Económica</title>
-    <meta name="description" content="Conoce más sobre nosotros. Somos una empresa con 2 locales en San Rafael, distribuidora y farmacia.">
+    <title>Página de Demostración - Sistema Multi-Tienda</title>
+    <meta name="description" content="Demostración de un sistema completo con distribuidora, farmacia y perfumería. Funcionalidades completas de e-commerce.">
     
     <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,6 +40,12 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        
+        /* Ensure navigation buttons are visible */
+        .group {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
     </style>
 </head>
 
@@ -48,8 +54,8 @@
     <header class="bg-white shadow-md sticky top-0 z-30">
         <nav class="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left">
-                <h1 class="text-4xl font-bold text-e-rojo">Distribuidora la Económica</h1>
-                <p class="text-lg text-gray-600 italic">"La mejor de San Rafael"</p>
+                <h1 class="text-4xl font-bold text-e-rojo">Sistema Multi-Tienda</h1>
+                <p class="text-lg text-gray-600 italic">"Demostración de Funcionalidades"</p>
             </div>
             <div class="flex items-center space-x-4 mt-4 md:mt-0">
                 <a href="distribuidoralaeconomica.html" class="text-gray-600 hover:text-e-rojo font-bold px-3 py-2 rounded-md transition-colors">Distribuidora</a>
@@ -60,24 +66,155 @@
         </nav>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 py-12">
-        <h2 class="text-4xl font-extrabold text-center text-gray-900 mb-10">Quiénes Somos</h2>
-        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
-            <p class="text-lg text-gray-700 leading-relaxed mb-6">
-                Somos una empresa con 2 locales en San Rafael, distribuidora y farmacia. Si buscas perfumería o maquillaje, te recomendamos entrar en la sección de perfumería de nuestra web.
-            </p>
-            <div class="text-center">
-               
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-e-rojo via-red-600 to-e-rojo-dark text-white py-20 overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-20"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    Página de Demostración
+                    <span class="block text-3xl md:text-4xl font-light mt-2">Sistema Multi-Tienda</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-red-100 leading-relaxed">
+                    Demostración de un sistema completo con distribuidora, farmacia y perfumería
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">🏪 3 Tiendas</span>
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">🛒 Carrito de Compras</span>
+                    <span class="bg-white bg-opacity-20 px-4 py-2 rounded-full">💳 Sistema de Pago</span>
+                </div>
             </div>
         </div>
-    </main>
+        <!-- Decorative elements -->
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full"></div>
+        <div class="absolute bottom-10 right-10 w-32 h-32 bg-white bg-opacity-5 rounded-full"></div>
+        <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-white bg-opacity-10 rounded-full"></div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Sistema de Demostración</h2>
+                <p class="text-lg text-gray-700 leading-relaxed mb-8">
+                    Esta es una <strong class="text-e-rojo">demostración completa</strong> de un sistema multi-tienda 
+                    que incluye distribuidora, farmacia y perfumería. Cada sección cuenta con funcionalidades 
+                    completas como carrito de compras, sistema de pago y gestión de productos.
+                </p>
+                
+                <!-- Service Cards -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <!-- Distribuidora Card -->
+                    <a href="distribuidoralaeconomica.html" class="group relative overflow-hidden rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800"></div>
+                        <div class="relative z-10 p-8 text-white">
+                            <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-warehouse text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Distribuidora</h3>
+                            <p class="text-blue-100 mb-6 leading-relaxed">
+                                Productos mayoristas y distribución para empresas. Amplio catálogo de productos para tu negocio.
+                            </p>
+                            <div class="flex items-center text-blue-200 group-hover:text-white transition-colors">
+                                <span class="mr-2">Explorar</span>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 right-0 w-32 h-32 bg-white bg-opacity-10 rounded-full transform translate-x-16 translate-y-16"></div>
+                    </a>
+
+                    <!-- Farmacia Card -->
+                    <a href="farmacia.html" class="group relative overflow-hidden rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2">
+                        <div class="absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-800"></div>
+                        <div class="relative z-10 p-8 text-white">
+                            <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-pills text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Farmacia</h3>
+                            <p class="text-green-100 mb-6 leading-relaxed">
+                                Medicamentos y productos farmacéuticos. Atención profesional y productos de calidad garantizada.
+                            </p>
+                            <div class="flex items-center text-green-200 group-hover:text-white transition-colors">
+                                <span class="mr-2">Explorar</span>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 right-0 w-32 h-32 bg-white bg-opacity-10 rounded-full transform translate-x-16 translate-y-16"></div>
+                    </a>
+
+                    <!-- Perfumería Card -->
+                    <a href="perfumeriasanrafael.html" class="group relative overflow-hidden rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2">
+                        <div class="absolute inset-0 bg-gradient-to-br from-pink-600 via-pink-700 to-purple-800"></div>
+                        <div class="relative z-10 p-8 text-white">
+                            <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-spray-can text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">Perfumería</h3>
+                            <p class="text-pink-100 mb-6 leading-relaxed">
+                                Fragancias exclusivas y productos de belleza. Las mejores marcas para realzar tu personalidad.
+                            </p>
+                            <div class="flex items-center text-pink-200 group-hover:text-white transition-colors">
+                                <span class="mr-2">Explorar</span>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 right-0 w-32 h-32 bg-white bg-opacity-10 rounded-full transform translate-x-16 translate-y-16"></div>
+                    </a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-e-rojo rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-award text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Funcionalidad Completa</h3>
+                        <p class="text-gray-600">Carrito de compras, pagos y gestión de productos</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-e-rojo rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-mobile-alt text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Diseño Responsivo</h3>
+                        <p class="text-gray-600">Optimizado para móviles y escritorio</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-e-rojo rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-cogs text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Sistema Integrado</h3>
+                        <p class="text-gray-600">Tres tiendas independientes con funcionalidades completas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Contact Section -->
+    <section class="py-16 bg-gray-900 text-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-6">¿Listo para Explorar?</h2>
+                <p class="text-gray-300 mb-8 text-lg">
+                    Explora las tres tiendas y descubre todas las funcionalidades del sistema
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="distribuidoralaeconomica.html" class="bg-e-rojo hover:bg-e-rojo-dark text-white px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-store mr-2"></i>Explorar Tiendas
+                    </a>
+                    <a href="distribuidoralaeconomica.html#contacto" class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300">
+                        <i class="fas fa-phone mr-2"></i>Contactar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center">
-            <p class="font-bold text-lg">La Económica San Rafael</p>
-            <p class="text-gray-400">RUT: 11.111.111-1</p>
+            <p class="font-bold text-lg">Sistema Multi-Tienda</p>
+            <p class="text-gray-400">Demostración de Funcionalidades Completas</p>
         </div>
     </footer>
 
@@ -85,9 +222,22 @@
     <script>
         // Animations
         document.addEventListener('DOMContentLoaded', () => {
+            // Ensure navigation buttons are visible first
+            gsap.set(".group", { opacity: 1, y: 0 });
+            
             gsap.from("h1", { duration: 0.8, y: -50, opacity: 0, ease: "bounce.out", delay: 0.2 });
             gsap.from("header p", { duration: 0.8, y: -30, opacity: 0, ease: "power2.out", delay: 0.4 });
             gsap.from("main", { duration: 0.7, opacity: 0, y: 50, delay: 0.6, ease: "power3.out" });
+            
+            // Animate navigation buttons with shorter delay
+            gsap.from(".group", { 
+                duration: 0.8, 
+                y: 30, 
+                opacity: 0, 
+                stagger: 0.2, 
+                delay: 0.8, 
+                ease: "power2.out" 
+            });
         });
     </script>
 </body>
