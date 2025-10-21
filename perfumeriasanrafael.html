@@ -49,7 +49,8 @@
                 <h1 class="text-3xl font-extrabold tracking-tight text-white">Perfumería <span class="text-gray-400">San Rafael</span></h1>
                 <p class="text-sm text-gray-500">Colección Exclusiva · Experiencia 3D</p>
             </div>
-            <nav class="space-x-2 hidden md:flex items-center">
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-2 items-center">
                 <a href="index.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Quiénes Somos</a>
                 <a href="distribuidoralaeconomica.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Distribuidora</a>
                 <a href="farmacia.html" class="px-3 py-2 text-sm rounded-md text-gray-400 hover:bg-gray-800 hover:text-white transition-colors">Farmacia</a>
@@ -58,7 +59,30 @@
                     <span id="cart-count" class="absolute -top-1 -right-1 bg-perfume-accent text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center text-[10px]">0</span>
                 </button>
             </nav>
+            <!-- Mobile Navigation -->
+            <div class="md:hidden flex items-center space-x-2">
+                <button id="open-cart-btn-mobile" class="relative text-gray-400 hover:text-white transition-colors px-3 py-2">
+                    <i class="fas fa-shopping-bag fa-lg"></i>
+                    <span id="cart-count-mobile" class="absolute -top-1 -right-1 bg-perfume-accent text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center text-[10px]">0</span>
+                </button>
+                <button id="mobile-menu-btn" class="text-gray-400 hover:text-white transition-colors px-3 py-2">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+            </div>
         </header>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 z-40 transform translate-x-full transition-transform duration-300 ease-in-out">
+            <div class="flex justify-end p-4">
+                <button id="close-mobile-menu" class="text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col items-center space-y-6 mt-16">
+                <a href="index.html" class="text-white text-xl hover:text-perfume-accent transition-colors">Quiénes Somos</a>
+                <a href="distribuidoralaeconomica.html" class="text-white text-xl hover:text-perfume-accent transition-colors">Distribuidora</a>
+                <a href="farmacia.html" class="text-white text-xl hover:text-perfume-accent transition-colors">Farmacia</a>
+            </nav>
+        </div>
 
         <section class="max-w-6xl mx-auto mt-16">
             <div class="grid perfume-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -229,12 +253,14 @@
             const openModalButtons = document.querySelectorAll('.open-modal-btn');
             const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
             const openCartBtn = document.getElementById('open-cart-btn');
+            const openCartBtnMobile = document.getElementById('open-cart-btn-mobile');
             const closeCartBtn = document.getElementById('close-cart-btn');
             const cartModal = document.getElementById('cart-modal');
             const modalOverlay = document.getElementById('modal-overlay');
             const cartItemsContainer = document.getElementById('cart-items');
             const cartTotalEl = document.getElementById('cart-total');
             const cartCountEl = document.getElementById('cart-count');
+            const cartCountMobileEl = document.getElementById('cart-count-mobile');
             const cartEmptyMsg = document.getElementById('cart-empty-msg');
             const checkoutBtn = document.getElementById('checkout-btn');
             const checkoutModal = document.getElementById('checkout-modal');
@@ -243,6 +269,10 @@
             const successModal = document.getElementById('success-modal');
             const successModalBox = document.getElementById('success-modal-box');
             const closeSuccessBtn = document.getElementById('close-success-btn');
+            // Mobile menu selectors
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const closeMobileMenuBtn = document.getElementById('close-mobile-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
 
             // --- CHECK PAYMENT SUCCESS ---
             const urlParams = new URLSearchParams(window.location.search);
@@ -380,6 +410,7 @@
                     cartItemsContainer.innerHTML = '';
                     cartTotalEl.innerText = '$0';
                     cartCountEl.innerText = '0';
+                    if (cartCountMobileEl) cartCountMobileEl.innerText = '0';
                     checkoutBtn.disabled = true;
                     return;
                 }
@@ -391,7 +422,7 @@
                     total += item.price * item.quantity;
                     totalItems += item.quantity;
                     const itemEl = document.createElement('div');
-                    itemEl.className = 'flex justify-between items-center mb-4 py-2 border-b border-gray-700'; 
+                    itemEl.className = 'flex justify-between items-center mb-4 py-2 border-b border-gray-700';
                     itemEl.innerHTML = `
                         <div class="text-sm">
                             <h4 class="font-semibold text-gray-100">${item.name}</h4>
@@ -406,6 +437,7 @@
                 });
                 cartTotalEl.innerText = `$${total.toLocaleString('es-CL')}`;
                 cartCountEl.innerText = totalItems;
+                if (cartCountMobileEl) cartCountMobileEl.innerText = totalItems;
                 checkoutBtn.disabled = false;
             }
             
@@ -471,41 +503,60 @@
                 });
             }
 
+            // --- MOBILE MENU LOGIC ---
+            function openMobileMenu() {
+                mobileMenu.classList.remove('translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+            }
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('translate-x-full');
+            }
+
             // --- EVENT LISTENERS ---
             // **** CORRECCIÓN AQUÍ ****
             openModalButtons.forEach(btn => btn.addEventListener('click', (e) => {
                 const buttonElement = e.target.closest('.open-modal-btn');
                 if (buttonElement) {
                      // NO añadir al carrito aquí
-                     // addToCart(e); 
+                     // addToCart(e);
                      openProductModal(buttonElement); // SOLO abrir el modal
                  }
             }));
             // El botón DENTRO del modal ahora es el único que añade al carrito
-            if (modalAddToCartBtn) modalAddToCartBtn.addEventListener('click', addToCart); 
+            if (modalAddToCartBtn) modalAddToCartBtn.addEventListener('click', addToCart);
             // **** FIN CORRECCIÓN ****
 
             if (closeProductModalBtn) closeProductModalBtn.addEventListener('click', closeProductModal);
-            
+
             if (openCartBtn) openCartBtn.addEventListener('click', openCart);
+            if (openCartBtnMobile) openCartBtnMobile.addEventListener('click', openCart);
             if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
             if (cartItemsContainer) cartItemsContainer.addEventListener('click', handleCartClick);
-            
+
             if (checkoutBtn) checkoutBtn.addEventListener('click', openCheckout);
             if (closeCheckoutBtn) closeCheckoutBtn.addEventListener('click', closeCheckout);
-            
+
             if (closeSuccessBtn) closeSuccessBtn.addEventListener('click', closeSuccessModal);
 
-            if (modalOverlay) modalOverlay.addEventListener('click', () => { 
-                if (productModalTimeline.isActive() || cartTimeline.isActive() || checkoutTimeline.isActive() || successTimeline.isActive()) return; 
+            // Mobile menu event listeners
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+            if (closeMobileMenuBtn) closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
+            if (mobileMenu) mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) closeMobileMenu();
+            });
+
+            if (modalOverlay) modalOverlay.addEventListener('click', () => {
+                if (productModalTimeline.isActive() || cartTimeline.isActive() || checkoutTimeline.isActive() || successTimeline.isActive()) return;
 
                 if (!productModal.classList.contains('hidden')) closeProductModal();
                 else if (cartTimeline.progress() > 0) closeCart();
                 else if (!checkoutModal.classList.contains('hidden')) closeCheckout();
             });
-            
-            window.addEventListener('keydown', (e) => { 
-                if(e.key === 'Escape' && !productModal.classList.contains('hidden')) closeProductModal(); 
+
+            window.addEventListener('keydown', (e) => {
+                if(e.key === 'Escape' && !productModal.classList.contains('hidden')) closeProductModal();
+                if(e.key === 'Escape' && !mobileMenu.classList.contains('translate-x-full')) closeMobileMenu();
             });
 
 
