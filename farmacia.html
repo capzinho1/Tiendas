@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farmacia Salud y Bienestar</title>
+    <title>Farmacia San Rafael - Tu Salud es Nuestra Prioridad</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -14,11 +14,11 @@
             theme: {
                 extend: {
                     colors: {
-                        'farm-primary': '#F06292', /* Rosa Vibrante */
-                        'farm-light': '#F8BBD0',  /* Rosa Claro */
-                        'farm-dark': '#C2185B',   /* Rosa Oscuro */
-                        'farm-success': '#4CAF50', /* Verde para éxito */
-                        'farm-text-dark': '#374151', /* Gris oscuro para texto */
+                        'farm-blue': '#3B5998',
+                        'farm-green': '#4CAF50',
+                        'farm-light': '#E3F2FD',
+                        'farm-dark': '#1E3A8A',
+                        'farm-orange': '#FF6B35',
                     }
                 }
             }
@@ -29,175 +29,548 @@
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         }
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            cursor: pointer;
+        .category-icon {
+            transition: transform 0.3s ease;
         }
-        .file-input-wrapper input[type=file] {
-            font-size: 100px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            cursor: pointer;
+        .category-icon:hover {
+            transform: translateY(-5px);
         }
-        .file-input-button {
-            background-color: #e0e0e0;
-            color: #333;
-            border: 1px solid #ccc;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out;
         }
         input[type="radio"]:checked + label {
-            border-color: #F06292; /* farm-primary */
-            box-shadow: 0 0 0 2px rgba(240, 98, 146, 0.2);
+            border-color: #3B5998;
+            box-shadow: 0 0 0 2px rgba(59, 89, 152, 0.2);
         }
-
     </style>
 </head>
 <body class="bg-gray-50">
 
-    <header class="bg-white shadow-md sticky top-0 z-30">
-        <nav class="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
-            <div class="text-center md:text-left">
-                <h1 class="text-4xl font-bold text-farm-primary flex items-center justify-center md:justify-start">
-                    <i class="fas fa-prescription-bottle-alt text-3xl mr-3"></i>
-                    Farmacia Salud y Bienestar
-                </h1>
-                <p class="text-lg text-gray-600 italic">"Farmaciadefantasia"</p>
+    <!-- Header Principal -->
+    <header class="bg-farm-blue text-white sticky top-0 z-30 shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <button id="mobile-menu-btn" class="md:hidden text-white text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="farmacia.html" class="flex items-center space-x-2">
+                        <i class="fas fa-prescription-bottle-alt text-3xl"></i>
+                        <div>
+                            <h1 class="text-xl font-bold">Farmacia San Rafael</h1>
+                            <p class="text-xs text-blue-200">Tu salud, nuestra prioridad</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Barra de Búsqueda -->
+                <div class="hidden md:flex flex-1 max-w-2xl mx-8">
+                    <div class="relative w-full">
+                        <input 
+                            type="text" 
+                            id="search-input"
+                            placeholder="Buscar medicamentos, suplementos..." 
+                            class="w-full py-2 px-4 pr-12 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-farm-green"
+                        >
+                        <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-farm-green text-white px-4 py-1 rounded-md hover:bg-green-600 transition">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Iconos de Usuario y Carrito -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-2">
+                        <img src="https://flagcdn.com/w40/cl.png" alt="Chile" class="w-6 h-4">
+                        <span class="text-sm">Chile</span>
+                    </div>
+                    <button class="hidden md:block hover:text-farm-green transition">
+                        <i class="fas fa-user text-xl"></i>
+                    </button>
+                    <button id="open-cart-btn" class="relative hover:text-farm-green transition">
+                        <i class="fas fa-shopping-cart text-2xl"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-farm-orange text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
             </div>
-            <div class="flex items-center space-x-4 mt-4 md:mt-0">
-                <a href="index.html" class="text-gray-600 hover:text-farm-primary font-bold px-3 py-2 rounded-md transition-colors">Quiénes Somos</a>
-                <a href="distribuidoralaeconomica.html" class="text-gray-600 hover:text-farm-primary font-bold px-3 py-2 rounded-md transition-colors">Volver a Distribuidora</a>
-                <a href="perfumeriasanrafael.html" class="text-gray-600 hover:text-farm-primary font-bold px-3 py-2 rounded-md transition-colors">Perfumería</a>
-                <button id="open-cart-btn" class="relative text-gray-700 hover:text-farm-primary transition-colors">
-                    <i class="fas fa-shopping-basket fa-2x"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-farm-success text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                </button>
+
+            <!-- Búsqueda Móvil -->
+            <div class="md:hidden mt-3">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        placeholder="Buscar..." 
+                        class="w-full py-2 px-4 pr-12 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-farm-green"
+                    >
+                    <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-farm-green text-white px-4 py-1 rounded-md">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación -->
+        <nav class="hidden md:block bg-white text-gray-700 border-t">
+            <div class="container mx-auto px-4">
+                <ul class="flex items-center space-x-6 py-3">
+                    <li><a href="#medicamentos" class="hover:text-farm-blue font-medium transition">MEDICAMENTOS</a></li>
+                    <li><a href="#suplementos" class="hover:text-farm-blue font-medium transition">SUPLEMENTOS Y ALIMENTOS</a></li>
+                    <li><a href="#dispositivos" class="hover:text-farm-blue font-medium transition">DISPOSITIVOS</a></li>
+                    <li><a href="#dermocosmetica" class="hover:text-farm-blue font-medium transition">DERMOCOSMÉTICA</a></li>
+                </ul>
             </div>
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-12">
-        <h2 class="text-4xl font-extrabold text-center text-farm-text-dark mb-10 flex items-center justify-center">
-            <i class="fas fa-capsules text-3xl mr-3 text-farm-primary"></i>
-            Nuestros Productos Farmacéuticos
+    <!-- Menú Móvil -->
+    <div id="mobile-menu" class="fixed top-0 left-0 w-64 h-full bg-white shadow-2xl z-50 transform -translate-x-full mobile-menu">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-farm-blue">Menú</h2>
+                <button id="close-mobile-menu" class="text-gray-600 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="space-y-4">
+                <li><a href="index.html" class="flex items-center space-x-3 text-gray-700 hover:text-farm-blue transition"><i class="fas fa-home"></i><span>🏠 Página Principal</span></a></li>
+                <li><a href="farmacia.html" class="flex items-center space-x-3 text-gray-700 hover:text-farm-blue transition"><i class="fas fa-pills"></i><span>Inicio</span></a></li>
+                <li><a href="quienes-somos.html" class="flex items-center space-x-3 text-gray-700 hover:text-farm-blue transition"><i class="fas fa-info-circle"></i><span>Quiénes Somos</span></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Overlay del menú móvil -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black opacity-0 hidden z-40"></div>
+
+    <!-- Filtros de Categorías -->
+    <section class="bg-white py-6 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-center gap-3">
+                <button class="category-filter-btn bg-farm-blue text-white px-6 py-2 rounded-full font-medium hover:bg-farm-dark transition" data-category="todos">
+                    Todos
+                </button>
+                <button class="category-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium hover:bg-gray-300 transition" data-category="medicamentos">
+                    💊 Medicamentos
+                </button>
+                <button class="category-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium hover:bg-gray-300 transition" data-category="suplementos">
+                    🌿 Suplementos
+                </button>
+                <button class="category-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium hover:bg-gray-300 transition" data-category="dispositivos">
+                    🩺 Dispositivos
+                </button>
+                <button class="category-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium hover:bg-gray-300 transition" data-category="dermocosmetica">
+                    💄 Dermocosmética
+                </button>
+                <button class="category-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium hover:bg-gray-300 transition" data-category="bebes">
+                    👶 Bebés y Mamás
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Banner Promocional -->
+    <section class="container mx-auto px-4 py-8">
+        <div class="relative bg-gradient-to-r from-green-400 to-green-600 rounded-2xl overflow-hidden shadow-2xl">
+            <div class="grid md:grid-cols-2 items-center">
+                <!-- Contenido del Banner -->
+                <div class="p-8 md:p-12 text-white">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-4">SUPLEMENTOS<br>Y ALIMENTOS</h2>
+                    <button class="bg-white text-green-600 font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition transform hover:scale-105">
+                        VER PRODUCTOS →
+                    </button>
+                </div>
+                <!-- Imagen de Productos -->
+                <div class="p-8">
+                    <div class="flex items-center justify-center space-x-2">
+                        <i class="fas fa-pills text-white text-6xl opacity-50"></i>
+                        <i class="fas fa-capsules text-white text-8xl"></i>
+                        <i class="fas fa-prescription-bottle text-white text-6xl opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos -->
+    <section id="productos" class="container mx-auto px-4 py-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+            <i class="fas fa-star text-farm-orange mr-3"></i>
+            Nuestros Productos
         </h2>
-        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             
-            <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
-                <img src="https://cdnx.jumpseller.com/farmagente/image/42735366/resize/610/610?1701212792" alt="Paracetamol" class="w-full h-48 object-cover">
-                <div class="p-4 flex-grow">
-                    <h3 class="text-xl font-bold text-farm-text-dark mb-2">Paracetamol 500mg (10 comp.)</h3>
-                    <p class="text-2xl font-bold text-farm-primary mb-4">$2.500</p>
+            <!-- MEDICAMENTOS -->
+            <!-- Producto 1 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="medicamentos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200" style="height: 200px;">
+                    <i class="fas fa-tablets text-6xl text-blue-600"></i>
                 </div>
-                <button 
-                    class="add-to-cart-btn bg-farm-primary hover:bg-farm-dark text-white font-bold py-3 px-6 m-4 rounded-lg transition-transform transform active:scale-95"
-                    data-id="F001" data-name="Paracetamol 500mg" data-price="2500">
-                    Agregar al Carrito
-                </button>
-            </div>
-            
-            <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
-                <img src="https://r.bolder.run/22994/large/963888-VIT-C_BERRIES_RENDER_%282%29.png" alt="Vitamina C" class="w-full h-48 object-cover">
-                <div class="p-4 flex-grow">
-                    <h3 class="text-xl font-bold text-farm-text-dark mb-2">Vitamina C Efervescente (20 und.)</h3>
-                    <p class="text-2xl font-bold text-farm-primary mb-4">$4.800</p>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Paracetamol 500mg 20 tab.</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$2.990</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F001" data-name="Paracetamol 500mg 20 tab." data-price="2990">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
                 </div>
-                <button 
-                    class="add-to-cart-btn bg-farm-primary hover:bg-farm-dark text-white font-bold py-3 px-6 m-4 rounded-lg transition-transform transform active:scale-95"
-                    data-id="F002" data-name="Vitamina C Efervescente" data-price="4800">
-                    Agregar al Carrito
-                </button>
             </div>
 
-            <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
-                <img src="https://media.falabella.com/falabellaCL/132235644_01/w=1500,h=1500,fit=pad" alt="Curitas" class="w-full h-48 object-cover">
-                <div class="p-4 flex-grow">
-                    <h3 class="text-xl font-bold text-farm-text-dark mb-2">Curitas Adhesivas (50 un.)</h3>
-                    <p class="text-2xl font-bold text-farm-primary mb-4">$1.500</p>
+            <!-- Producto 2 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="medicamentos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-red-100 to-red-200" style="height: 200px;">
+                    <i class="fas fa-capsules text-6xl text-red-600"></i>
                 </div>
-                <button 
-                    class="add-to-cart-btn bg-farm-primary hover:bg-farm-dark text-white font-bold py-3 px-6 m-4 rounded-lg transition-transform transform active:scale-95"
-                    data-id="F003" data-name="Curitas Adhesivas" data-price="1500">
-                    Agregar al Carrito
-                </button>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Ibuprofeno 400mg 30 cap.</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$3.500</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F002" data-name="Ibuprofeno 400mg 30 cap." data-price="3500">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
             </div>
 
-            <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
-                <img src="https://santaisabel.vtexassets.com/arquivos/ids/205319/Alcohol-Plus-Antibacterial-spray-500-ml.jpg?v=637940177441270000" alt="Alcohol Gel" class="w-full h-48 object-cover">
-                <div class="p-4 flex-grow">
-                    <h3 class="text-xl font-bold text-farm-text-dark mb-2">Alcohol Gel (500ml)</h3>
-                    <p class="text-2xl font-bold text-farm-primary mb-4">$3.200</p>
+            <!-- Producto 3 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="medicamentos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-purple-100 to-purple-200" style="height: 200px;">
+                    <i class="fas fa-pills text-6xl text-purple-600"></i>
                 </div>
-                <button 
-                    class="add-to-cart-btn bg-farm-primary hover:bg-farm-dark text-white font-bold py-3 px-6 m-4 rounded-lg transition-transform transform active:scale-95"
-                    data-id="F004" data-name="Alcohol Gel" data-price="3200">
-                    Agregar al Carrito
-                </button>
-            </div>
-            
-            <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
-                <img src="https://dojiw2m9tvv09.cloudfront.net/87170/product/termometrodigital0948.jpg" alt="Termómetro" class="w-full h-48 object-cover">
-                <div class="p-4 flex-grow">
-                    <h3 class="text-xl font-bold text-farm-text-dark mb-2">Termómetro Digital</h3>
-                    <p class="text-2xl font-bold text-farm-primary mb-4">$6.990</p>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Omeprazol 20mg 14 cap.</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$4.200</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F003" data-name="Omeprazol 20mg 14 cap." data-price="4200">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
                 </div>
-                <button 
-                    class="add-to-cart-btn bg-farm-primary hover:bg-farm-dark text-white font-bold py-3 px-6 m-4 rounded-lg transition-transform transform active:scale-95"
-                    data-id="F005" data-name="Termómetro Digital" data-price="6990">
-                    Agregar al Carrito
-                </button>
             </div>
 
-        </div>
-    </main>
-    
-    <section class="bg-farm-light py-16">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-extrabold text-center text-farm-text-dark mb-8">Preguntas Frecuentes</h2>
-            <div class="max-w-2xl mx-auto">
-                <div class="mb-4 bg-white p-4 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-bold mb-2 text-farm-dark">¿Cómo funciona la entrega?</h3>
-                    <p class="text-gray-700">Realizamos entregas a domicilio en toda la región. Los tiempos de entrega pueden variar según tu ubicación.</p>
+            <!-- Producto 4 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="medicamentos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200" style="height: 200px;">
+                    <i class="fas fa-prescription-bottle text-6xl text-green-600"></i>
                 </div>
-                <div class="mb-4 bg-white p-4 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-bold mb-2 text-farm-dark">¿Necesito receta médica?</h3>
-                    <p class="text-gray-700">Para algunos medicamentos sí. Si un producto requiere receta, lo indicaremos claramente.</p>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Loratadina 10mg 10 comp.</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$2.500</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F004" data-name="Loratadina 10mg 10 comp." data-price="2500">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
                 </div>
             </div>
+
+            <!-- SUPLEMENTOS -->
+            <!-- Producto 5 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="suplementos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-200" style="height: 200px;">
+                    <i class="fas fa-heart text-6xl text-orange-600"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Vitamina C 1000mg 30 comp.</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$4.500</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F005" data-name="Vitamina C 1000mg 30 comp." data-price="4500">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 6 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="suplementos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-yellow-100 to-yellow-200" style="height: 200px;">
+                    <i class="fas fa-sun text-6xl text-yellow-600"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Vitamina D3 60 cápsulas</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$6.800</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F006" data-name="Vitamina D3 60 cápsulas" data-price="6800">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 7 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="suplementos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-teal-100 to-teal-200" style="height: 200px;">
+                    <i class="fas fa-fish text-6xl text-teal-600"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Omega 3 50 cápsulas</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$8.990</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F007" data-name="Omega 3 50 cápsulas" data-price="8990">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 8 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="suplementos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200" style="height: 200px;">
+                    <i class="fas fa-bone text-6xl text-pink-600"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Colágeno Hidrolizado 300g</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$11.500</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F008" data-name="Colágeno Hidrolizado 300g" data-price="11500">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 9 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="suplementos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-indigo-100 to-indigo-200" style="height: 200px;">
+                    <i class="fas fa-dumbbell text-6xl text-indigo-600"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Proteína Whey 1kg</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$18.990</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F009" data-name="Proteína Whey 1kg" data-price="18990">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 10 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="suplementos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-red-100 to-red-200" style="height: 200px;">
+                    <i class="fas fa-heartbeat text-6xl text-red-600"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Magnesio 400mg 60 comp.</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$5.900</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F010" data-name="Magnesio 400mg 60 comp." data-price="5900">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- DISPOSITIVOS -->
+            <!-- Producto 11 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="dispositivos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200" style="height: 200px;">
+                    <i class="fas fa-thermometer text-6xl text-gray-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Termómetro Digital</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$6.990</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F011" data-name="Termómetro Digital" data-price="6990">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 12 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="dispositivos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200" style="height: 200px;">
+                    <i class="fas fa-heartbeat text-6xl text-blue-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Tensiómetro Digital</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$24.990</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F012" data-name="Tensiómetro Digital" data-price="24990">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 13 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="dispositivos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-purple-100 to-purple-200" style="height: 200px;">
+                    <i class="fas fa-band-aid text-6xl text-purple-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Curitas Adhesivas 50 un.</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$1.500</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F013" data-name="Curitas Adhesivas 50 un." data-price="1500">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 14 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="dispositivos">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200" style="height: 200px;">
+                    <i class="fas fa-tint text-6xl text-green-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Glucómetro con Tiras</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$19.990</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F014" data-name="Glucómetro con Tiras" data-price="19990">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- DERMOCOSMÉTICA -->
+            <!-- Producto 15 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="dermocosmetica">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200" style="height: 200px;">
+                    <i class="fas fa-spa text-6xl text-pink-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Crema Facial Antiarrugas</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$14.990</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F015" data-name="Crema Facial Antiarrugas" data-price="14990">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 16 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="dermocosmetica">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-yellow-100 to-yellow-200" style="height: 200px;">
+                    <i class="fas fa-sun text-6xl text-yellow-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Protector Solar FPS 50+</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$12.500</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F016" data-name="Protector Solar FPS 50+" data-price="12500">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 17 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="dermocosmetica">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200" style="height: 200px;">
+                    <i class="fas fa-hand-sparkles text-6xl text-blue-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Crema Hidratante Corporal</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$8.900</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F017" data-name="Crema Hidratante Corporal" data-price="8900">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 18 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="dermocosmetica">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-purple-100 to-purple-200" style="height: 200px;">
+                    <i class="fas fa-droplet text-6xl text-purple-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Sérum Vitamina C 30ml</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$16.900</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F018" data-name="Sérum Vitamina C 30ml" data-price="16900">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- BEBÉS Y MAMÁS -->
+            <!-- Producto 19 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="bebes">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-cyan-100 to-cyan-200" style="height: 200px;">
+                    <i class="fas fa-baby text-6xl text-cyan-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Pañales Talla M 40 un.</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$9.990</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F019" data-name="Pañales Talla M 40 un." data-price="9990">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 20 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="bebes">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-teal-100 to-teal-200" style="height: 200px;">
+                    <i class="fas fa-soap text-6xl text-teal-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Toallitas Húmedas 80 un.</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$3.200</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F020" data-name="Toallitas Húmedas 80 un." data-price="3200">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 21 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="bebes">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-200" style="height: 200px;">
+                    <i class="fas fa-pump-soap text-6xl text-orange-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Crema para Pañal 100g</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$4.800</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F021" data-name="Crema para Pañal 100g" data-price="4800">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 22 -->
+            <div class="product-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="bebes">
+                <div class="p-4 flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200" style="height: 200px;">
+                    <i class="fas fa-baby-carriage text-6xl text-green-700"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 mb-2 text-sm md:text-base">Shampoo para Bebé 200ml</h3>
+                    <p class="text-2xl font-bold text-farm-blue mb-3">$5.500</p>
+                    <button class="add-to-cart-btn w-full bg-farm-green hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition transform active:scale-95"
+                        data-id="F022" data-name="Shampoo para Bebé 200ml" data-price="5500">
+                        <i class="fas fa-cart-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <section class="bg-gray-100 py-16">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-extrabold text-farm-text-dark mb-4">Valora tu Experiencia</h2>
-            <div class="flex justify-center items-center space-x-2 text-4xl text-gray-400" id="rating-stars">
-                <i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors"></i>
-                <i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors"></i>
-                <i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors"></i>
-                <i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors"></i>
-                <i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors"></i>
-            </div>
-            <p id="rating-thanks" class="text-farm-success font-bold mt-4 opacity-0">¡Gracias por tu valoración!</p>
-        </div>
-    </section>
-
+    <!-- Footer -->
     <footer class="bg-farm-dark text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p class="font-bold text-lg">Farmacia Salud y Bienestar</p>
-            <p class="text-farm-light">Tu farmacia de confianza.</p>
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+                <i class="fas fa-prescription-bottle-alt text-3xl"></i>
+                <h3 class="text-2xl font-bold">Farmacia San Rafael</h3>
+            </div>
+            <p class="text-blue-200 mb-4">Tu salud es nuestra prioridad</p>
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="hover:text-farm-green transition"><i class="fab fa-facebook text-2xl"></i></a>
+                <a href="#" class="hover:text-farm-green transition"><i class="fab fa-instagram text-2xl"></i></a>
+                <a href="#" class="hover:text-farm-green transition"><i class="fab fa-whatsapp text-2xl"></i></a>
+            </div>
+            <p class="text-sm text-blue-300">© 2025 Farmacia San Rafael. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-
+    <!-- Modal del Carrito -->
     <div id="cart-modal" class="fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-500 ease-in-out z-50 flex flex-col">
-        <div class="flex justify-between items-center p-6 border-b">
-            <h2 class="text-2xl font-bold text-farm-text-dark">Tu Carrito</h2>
-            <button id="close-cart-btn" class="text-gray-500 hover:text-farm-dark">
+        <div class="flex justify-between items-center p-6 border-b bg-farm-blue text-white">
+            <h2 class="text-2xl font-bold flex items-center">
+                <i class="fas fa-shopping-cart mr-2"></i>
+                Tu Carrito
+            </h2>
+            <button id="close-cart-btn" class="text-white hover:text-gray-200">
                 <i class="fas fa-times fa-2x"></i>
             </button>
         </div>
@@ -206,32 +579,33 @@
         </div>
         <div class="p-6 border-t bg-gray-50">
             <div class="flex justify-between items-center mb-4">
-                <span class="text-xl font-bold text-farm-text-dark">Total:</span>
-                <span id="cart-total" class="text-2xl font-bold text-farm-primary">$0</span>
+                <span class="text-xl font-bold text-gray-800">Total:</span>
+                <span id="cart-total" class="text-2xl font-bold text-farm-blue">$0</span>
             </div>
-            <button id="checkout-btn" class="w-full bg-farm-success hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg disabled:bg-gray-400" disabled>
-                Finalizar Compra
+            <button id="checkout-btn" class="w-full bg-farm-green hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg disabled:bg-gray-400 transition transform active:scale-95" disabled>
+                <i class="fas fa-check-circle mr-2"></i>Finalizar Compra
             </button>
         </div>
     </div>
-    
+
+    <!-- Modal de Checkout -->
     <div id="checkout-modal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-60 z-50 p-4 hidden">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col transform scale-90 opacity-0" id="checkout-box">
             
-            <div class="flex justify-between items-center p-5 border-b">
-                <h2 class="text-2xl font-bold text-farm-text-dark flex items-center">
-                    <i class="fas fa-file-invoice text-gray-500 mr-3"></i>
+            <div class="flex justify-between items-center p-5 border-b bg-farm-blue text-white">
+                <h2 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-file-invoice mr-3"></i>
                     Datos de Compra
                 </h2>
-                <button id="close-checkout-btn" class="text-gray-400 hover:text-gray-700">
+                <button id="close-checkout-btn" class="text-white hover:text-gray-200">
                     <i class="fas fa-times fa-2x"></i>
                 </button>
             </div>
             
             <form class="p-6 overflow-y-auto" id="checkout-form">
                 
-                <h3 class="text-xl font-semibold mb-4 text-farm-text-dark flex items-center">
-                    <i class="fas fa-user-circle text-farm-primary mr-3"></i>
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <i class="fas fa-user-circle text-farm-blue mr-3"></i>
                     Tus Datos Personales
                 </h3>
                 <div class="space-y-4 mb-8">
@@ -240,14 +614,14 @@
                             <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre Completo</label>
                             <div class="relative mt-1">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-user text-gray-400"></i></span>
-                                <input type="text" id="nombre" class="w-full p-2 pl-10 border rounded-lg focus:ring-farm-primary focus:border-farm-primary" placeholder="Juan Pérez" required>
+                                <input type="text" id="nombre" class="w-full p-2 pl-10 border rounded-lg focus:ring-farm-blue focus:border-farm-blue" placeholder="Juan Pérez" required>
                             </div>
                         </div>
                         <div>
                             <label for="rut" class="block text-sm font-medium text-gray-700">RUT</label>
                             <div class="relative mt-1">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-id-card text-gray-400"></i></span>
-                                <input type="text" id="rut" class="w-full p-2 pl-10 border rounded-lg focus:ring-farm-primary focus:border-farm-primary" placeholder="11.111.111-1" required>
+                                <input type="text" id="rut" class="w-full p-2 pl-10 border rounded-lg focus:ring-farm-blue focus:border-farm-blue" placeholder="11.111.111-1" required>
                             </div>
                         </div>
                     </div>
@@ -255,33 +629,33 @@
                         <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
                         <div class="relative mt-1">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-envelope text-gray-400"></i></span>
-                            <input type="email" id="email" class="w-full p-2 pl-10 border rounded-lg focus:ring-farm-primary focus:border-farm-primary" placeholder="juan@correo.com" required>
+                            <input type="email" id="email" class="w-full p-2 pl-10 border rounded-lg focus:ring-farm-blue focus:border-farm-blue" placeholder="juan@correo.com" required>
                         </div>
                     </div>
                     <div>
                         <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección de Envío</label>
                         <div class="relative mt-1">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-map-marker-alt text-gray-400"></i></span>
-                            <input type="text" id="direccion" class="w-full p-2 pl-10 border rounded-lg focus:ring-farm-primary focus:border-farm-primary" placeholder="Calle Falsa 123" required>
+                            <input type="text" id="direccion" class="w-full p-2 pl-10 border rounded-lg focus:ring-farm-blue focus:border-farm-blue" placeholder="Calle Falsa 123" required>
                         </div>
                     </div>
                     <div>
                         <label for="ciudad" class="block text-sm font-medium text-gray-700">Ciudad</label>
                         <div class="relative mt-1">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i class="fas fa-city text-gray-400"></i></span>
-                            <input type="text" id="ciudad" class="w-full p-2 pl-10 border rounded-lg focus:ring-farm-primary focus:border-farm-primary" placeholder="San Rafael" required>
+                            <input type="text" id="ciudad" class="w-full p-2 pl-10 border rounded-lg focus:ring-farm-blue focus:border-farm-blue" placeholder="San Rafael" required>
                         </div>
                     </div>
                 </div>
 
-                <h3 class="text-xl font-semibold mb-4 text-farm-text-dark flex items-center">
-                    <i class="fas fa-hand-holding-usd text-farm-primary mr-3"></i>
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <i class="fas fa-credit-card text-farm-blue mr-3"></i>
                     Método de Pago
                 </h3>
                 <div class="space-y-4">
                     <div>
                         <input type="radio" name="payment" id="pago-efectivo" class="hidden" checked>
-                        <label for="pago-efectivo" class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                        <label for="pago-efectivo" class="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
                             <i class="fas fa-money-bill-wave text-green-500 text-3xl w-10 mr-4"></i>
                             <div>
                                 <span class="font-medium text-gray-900">Efectivo</span>
@@ -292,7 +666,7 @@
                     
                     <div>
                         <input type="radio" name="payment" id="pago-transferencia" class="hidden">
-                        <label for="pago-transferencia" class="block p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                        <label for="pago-transferencia" class="block p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
                             <div class="flex items-center">
                                 <i class="fas fa-exchange-alt text-blue-500 text-3xl w-10 mr-4"></i>
                                 <div>
@@ -302,21 +676,19 @@
                             </div>
                             <div id="transfer-details" class="hidden mt-4 pt-4 border-t">
                                 <p class="text-sm font-medium">Datos para transferir:</p>
-                                <p class="text-sm font-mono text-gray-700">Cta. Corriente: 12345678 (Banco XYZ)</p>
+                                <p class="text-sm font-mono text-gray-700">Cta. Corriente: 12345678 (Banco Estado)</p>
                                 <p class="text-sm font-mono text-gray-700">RUT: 11.111.111-1</p>
                                 <p class="text-sm mt-2 font-medium">Sube tu comprobante:</p>
-                                <div class="file-input-wrapper mt-1">
-                                    <button type="button" class="file-input-button">Seleccionar archivo</button>
-                                    <input type="file" id="comprobante-file" accept="image/*,.pdf">
+                                <div class="mt-1">
+                                    <input type="file" id="comprobante-file" accept="image/*,.pdf" class="text-sm">
                                 </div>
-                                <span id="file-name" class="text-sm ml-2 text-gray-600">Ningún archivo...</span>
                             </div>
                         </label>
                     </div>
                     
                     <div>
                         <input type="radio" name="payment" id="pago-mercadopago" class="hidden">
-                        <label for="pago-mercadopago" class="block p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                        <label for="pago-mercadopago" class="block p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
                             <div class="flex items-center">
                                 <i class="fas fa-credit-card text-cyan-500 text-3xl w-10 mr-4"></i>
                                 <div>
@@ -331,10 +703,10 @@
             
             <div class="p-6 border-t bg-gray-50 rounded-b-xl">
                 <div class="flex justify-between items-center mb-4">
-                    <span class="text-lg font-medium text-farm-text-dark">Total a Pagar:</span>
-                    <span id="checkout-total" class="text-3xl font-bold text-farm-primary">$0</span>
+                    <span class="text-lg font-medium text-gray-800">Total a Pagar:</span>
+                    <span id="checkout-total" class="text-3xl font-bold text-farm-blue">$0</span>
                 </div>
-                <button id="confirm-order-btn" class="w-full bg-farm-primary hover:bg-farm-dark text-white font-bold py-3 rounded-lg text-lg flex items-center justify-center space-x-2 transition-transform active:scale-95">
+                <button id="confirm-order-btn" class="w-full bg-farm-blue hover:bg-farm-dark text-white font-bold py-3 rounded-lg text-lg flex items-center justify-center space-x-2 transition-transform active:scale-95">
                     <i class="fas fa-check-circle"></i>
                     <span>Confirmar Pedido</span>
                 </button>
@@ -342,19 +714,20 @@
         </div>
     </div>
 
+    <!-- Modal de Éxito -->
     <div id="success-modal" class="fixed inset-0 w-full h-full flex items-center justify-center z-50 hidden" style="background-color: rgba(0,0,0,0.6);">
         <div id="success-modal-box" class="bg-white rounded-lg shadow-2xl p-8 max-w-sm mx-auto text-center transform scale-90 opacity-0">
             <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                <i class="fas fa-check text-farm-success text-5xl"></i>
+                <i class="fas fa-check text-farm-green text-5xl"></i>
             </div>
             
-            <h2 class="text-3xl font-bold text-farm-text-dark mt-6 mb-3">¡Pedido de Farmacia Recibido!</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mt-6 mb-3">¡Pedido Recibido!</h2>
             
             <p class="text-lg text-gray-600 mb-8">
                 Gracias por tu compra. Tu pedido será preparado y despachado. Recibirás una confirmación en tu correo.
             </p>
             
-            <button id="close-success-btn" class="w-full bg-farm-success hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg">
+            <button id="close-success-btn" class="w-full bg-farm-green hover:bg-green-600 text-white font-bold py-3 rounded-lg text-lg">
                 Entendido
             </button>
         </div>
@@ -364,10 +737,11 @@
 
     
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
 
             let cart = []; 
             
+            // Elementos del DOM
             const openCartBtn = document.getElementById('open-cart-btn');
             const closeCartBtn = document.getElementById('close-cart-btn');
             const cartModal = document.getElementById('cart-modal');
@@ -384,27 +758,30 @@
             const successModal = document.getElementById('success-modal');
             const successModalBox = document.getElementById('success-modal-box');
             const closeSuccessBtn = document.getElementById('close-success-btn');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const closeMobileMenuBtn = document.getElementById('close-mobile-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
 
-            
-            // --- CHECK DE PAGO EXITOSO ---
+            // Check de pago exitoso
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('payment') && urlParams.get('payment') === 'success') {
-                setTimeout(() => {
+                setTimeout(function() {
                     openSuccessModal();
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }, 100);
             }
 
-            // --- ANIMACIONES GSAP ---
-            
-            if (document.querySelector("h1")) gsap.from("h1", { duration: 0.8, y: -50, opacity: 0, ease: "bounce.out", delay: 0.2 });
-            if (document.querySelector("header p")) gsap.from("header p", { duration: 0.8, y: -30, opacity: 0, ease: "power2.out", delay: 0.4 });
-            if (document.querySelectorAll(".product-card").length > 0) gsap.from(".product-card", { duration: 0.7, opacity: 0, y: 50, stagger: 0.1, delay: 0.6, ease: "power3.out" });
+            // ANIMACIONES GSAP
+            gsap.from("header", { duration: 0.8, y: -100, opacity: 0, ease: "power3.out" });
+            gsap.from(".category-icon", { duration: 0.7, opacity: 0, y: 30, stagger: 0.1, delay: 0.3, ease: "power2.out" });
+            gsap.from(".product-card", { duration: 0.7, opacity: 0, y: 50, stagger: 0.1, delay: 0.6, ease: "power3.out" });
 
             const cartTimeline = gsap.timeline({ paused: true });
             cartTimeline
                 .to(modalOverlay, { duration: 0.3, opacity: 0.5, display: 'block', ease: "power2.inOut" })
                 .to(cartModal, { duration: 0.4, x: 0, ease: "power3.out" }, "-=0.2"); 
+            
             function openCart() { cartTimeline.play(); }
             function closeCart() { cartTimeline.reverse(); }
 
@@ -419,8 +796,9 @@
                 closeCart(); 
                 checkoutTimeline.play();
             }
+            
             function closeCheckout() {
-                checkoutTimeline.reverse().then(() => {
+                checkoutTimeline.reverse().then(function() {
                     gsap.set(checkoutModal, { display: 'none' });
                 });
             }
@@ -435,23 +813,75 @@
             }
             
             function closeSuccessModal() {
-                successTimeline.reverse().then(() => {
+                successTimeline.reverse().then(function() {
                     gsap.set(successModal, { display: 'none' });
                 });
             }
 
+            // Menú Móvil
+            function openMobileMenu() {
+                gsap.to(mobileMenuOverlay, { duration: 0.3, opacity: 0.5, display: 'block' });
+                gsap.to(mobileMenu, { duration: 0.3, x: 0, ease: "power2.out" });
+            }
+
+            function closeMobileMenu() {
+                gsap.to(mobileMenuOverlay, { duration: 0.3, opacity: 0, display: 'none' });
+                gsap.to(mobileMenu, { duration: 0.3, x: '-100%', ease: "power2.in" });
+            }
+
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+            if (closeMobileMenuBtn) closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
+            if (mobileMenuOverlay) mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+            // Cerrar menú móvil al hacer click en un enlace
+            const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+            mobileMenuLinks.forEach(function(link) {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            // FILTROS DE CATEGORÍA
+            const categoryFilterButtons = document.querySelectorAll('.category-filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+
+            function filterProducts(category) {
+                productCards.forEach(function(card) {
+                    if (category === 'todos' || card.dataset.category === category) {
+                        gsap.to(card, { duration: 0.3, opacity: 1, display: 'block', scale: 1 });
+                    } else {
+                        gsap.to(card, { duration: 0.3, opacity: 0, scale: 0.8, onComplete: function() {
+                            card.style.display = 'none';
+                        }});
+                    }
+                });
+
+                // Actualizar estilos de los botones
+                categoryFilterButtons.forEach(function(btn) {
+                    if (btn.dataset.category === category) {
+                        btn.className = 'category-filter-btn bg-farm-blue text-white px-6 py-2 rounded-full font-medium hover:bg-farm-dark transition';
+                    } else {
+                        btn.className = 'category-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium hover:bg-gray-300 transition';
+                    }
+                });
+            }
+
+            categoryFilterButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    filterProducts(category);
+                });
+            });
 
             function animateAddToCart(button) {
                 gsap.fromTo(button, { scale: 1 }, { scale: 1.05, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" });
                 gsap.fromTo("#open-cart-btn", { scale: 1 }, { scale: 1.2, duration: 0.2, yoyo: true, repeat: 1, ease: "elastic.out(1, 0.3)" });
             }
 
-            // --- LÓGICA DEL CARRITO (JavaScript) ---
+            // LÓGICA DEL CARRITO
             function addToCart(e) {
                 const button = e.target.closest('.add-to-cart-btn'); 
                 animateAddToCart(button);
                 const id = button.dataset.id;
-                const existingItem = cart.find(item => item.id === id);
+                const existingItem = cart.find(function(item) { return item.id === id; });
                 if (existingItem) {
                     existingItem.quantity++;
                 } else {
@@ -474,7 +904,7 @@
                 cartItemsContainer.innerHTML = '';
                 let total = 0;
                 let totalItems = 0;
-                cart.forEach(item => {
+                cart.forEach(function(item) {
                     total += item.price * item.quantity;
                     totalItems += item.quantity;
                     const itemEl = document.createElement('div');
@@ -484,7 +914,7 @@
                             <h4 class="font-bold">${item.name}</h4>
                             <p class="text-sm text-gray-600">Cantidad: ${item.quantity}</p>
                         </div>
-                        <span class="font-bold text-farm-text-dark">$${(item.price * item.quantity).toLocaleString('es-CL')}</span>
+                        <span class="font-bold text-gray-800">$${(item.price * item.quantity).toLocaleString('es-CL')}</span>
                         <button class="remove-from-cart text-red-500 hover:text-red-700 ml-4" data-id="${item.id}">
                             <i class="fas fa-times"></i>
                         </button>
@@ -499,31 +929,27 @@
             function handleCartClick(e) {
                 if (e.target.closest('.remove-from-cart')) {
                     const id = e.target.closest('.remove-from-cart').dataset.id;
-                    cart = cart.filter(item => item.id !== id);
+                    cart = cart.filter(function(item) { return item.id !== id; });
                     updateCartUI();
                 }
             }
 
-            // --- LÓGICA DEL FORMULARIO DE PAGO ---
+            // LÓGICA DEL FORMULARIO DE PAGO
             const paymentRadios = document.querySelectorAll('input[name="payment"]');
             const transferDetails = document.getElementById('transfer-details');
-            paymentRadios.forEach(radio => {
-                radio.addEventListener('change', () => {
+            paymentRadios.forEach(function(radio) {
+                radio.addEventListener('change', function() {
                     transferDetails.style.display = 'none';
                     if (radio.id === 'pago-transferencia') {
                         transferDetails.style.display = 'block';
                     }
                 });
             });
-
-            const fileInput = document.getElementById('comprobante-file');
-            const fileNameEl = document.getElementById('file-name');
-            if (fileInput) fileInput.addEventListener('change', () => { fileNameEl.textContent = fileInput.files[0] ? fileInput.files[0].name : 'Ningún archivo...'; });
             
-            // --- LÓGICA DE CONFIRMAR PEDIDO ---
+            // LÓGICA DE CONFIRMAR PEDIDO
             const confirmOrderBtn = document.getElementById('confirm-order-btn');
             if (confirmOrderBtn) {
-                confirmOrderBtn.addEventListener('click', (e) => {
+                confirmOrderBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     const form = document.getElementById('checkout-form');
                     
@@ -538,10 +964,7 @@
                     if (selectedPayment === 'pago-mercadopago') {
                         let totalText = cartTotalEl.innerText.replace('$', '').replace(/\./g, '');
                         let total = parseInt(totalText);
-                        // ¡IMPORTANTE! Asegúrate de tener el archivo mercadopago.html
-                        // en la misma carpeta que este index.html
-                        window.location.href = `mercadopago.html?total=${total}&origin=farmacia`; // Añadimos origin para MercadoPago
-
+                        window.location.href = `mercadopago.html?total=${total}&origin=farmacia`;
                     } else {
                         closeCheckout();
                         openSuccessModal(); 
@@ -551,30 +974,19 @@
                 });
             }
 
-            // --- LÓGICA VALORACIÓN (ESTRELLAS) ---
-            const stars = document.querySelectorAll('#rating-stars .fa-star');
-            const thanksMsg = document.getElementById('rating-thanks');
-            stars.forEach((star, index) => {
-                star.addEventListener('click', () => {
-                    stars.forEach((s, i) => {
-                        s.classList.toggle('text-yellow-400', i <= index);
-                        s.classList.toggle('text-gray-400', i > index);
-                    });
-                    gsap.to(thanksMsg, { duration: 0.5, opacity: 1, ease: 'power2.out' });
-                });
-            });
-
-            // --- EVENT LISTENERS GENERALES ---
+            // EVENT LISTENERS
             if (openCartBtn) openCartBtn.addEventListener('click', openCart);
             if (closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
-            if (modalOverlay) modalOverlay.addEventListener('click', () => { 
+            if (modalOverlay) modalOverlay.addEventListener('click', function() { 
                 closeCart(); 
                 closeCheckout();
             });
             if (cartItemsContainer) cartItemsContainer.addEventListener('click', handleCartClick);
             if (checkoutBtn) checkoutBtn.addEventListener('click', openCheckout);
             if (closeCheckoutBtn) closeCheckoutBtn.addEventListener('click', closeCheckout);
-            addToCartButtons.forEach(button => button.addEventListener('click', addToCart));
+            addToCartButtons.forEach(function(button) { 
+                button.addEventListener('click', addToCart); 
+            });
             if (closeSuccessBtn) closeSuccessBtn.addEventListener('click', closeSuccessModal);
 
             updateCartUI();
@@ -583,3 +995,4 @@
 
 </body>
 </html>
+
