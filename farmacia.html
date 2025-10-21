@@ -55,11 +55,7 @@
             border-color: #F06292; /* farm-primary */
             box-shadow: 0 0 0 2px rgba(240, 98, 146, 0.2);
         }
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
+
     </style>
 </head>
 <body class="bg-gray-50">
@@ -77,8 +73,6 @@
                 <a href="index.html" class="text-gray-600 hover:text-farm-primary font-bold px-3 py-2 rounded-md transition-colors">Quiénes Somos</a>
                 <a href="distribuidoralaeconomica.html" class="text-gray-600 hover:text-farm-primary font-bold px-3 py-2 rounded-md transition-colors">Volver a Distribuidora</a>
                 <a href="perfumeriasanrafael.html" class="text-gray-600 hover:text-farm-primary font-bold px-3 py-2 rounded-md transition-colors">Perfumería</a>
-                <a href="#" class="text-gray-600 hover:text-farm-primary">Mi Cuenta</a>
-                <a href="#" class="text-gray-600 hover:text-farm-primary font-bold">Admin</a>
                 <button id="open-cart-btn" class="relative text-gray-700 hover:text-farm-primary transition-colors">
                     <i class="fas fa-shopping-basket fa-2x"></i>
                     <span id="cart-count" class="absolute -top-2 -right-2 bg-farm-success text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
@@ -92,7 +86,7 @@
             <i class="fas fa-capsules text-3xl mr-3 text-farm-primary"></i>
             Nuestros Productos Farmacéuticos
         </h2>
-        <div id="product-grid" class="product-grid">
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
                 <img src="https://cdnx.jumpseller.com/farmagente/image/42735366/resize/610/610?1701212792" alt="Paracetamol" class="w-full h-48 object-cover">
